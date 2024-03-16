@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+import org.hibernate.type.YesNoConverter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,11 +22,15 @@ public class PermissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permission_seq")
     private Long id;
+
     @Column(name = "NAME", length = 100, unique = true, nullable = false)
     private String name;
+
     @Column(name = "DESCRIPTION", length = 100)
     private String description;
+
     @Column(name = "ACTIVE", nullable = false)
+    @Convert(converter = YesNoConverter.class)
     private Boolean active = Boolean.FALSE;
 
     @JsonIgnore

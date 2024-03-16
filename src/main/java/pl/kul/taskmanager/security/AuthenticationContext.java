@@ -10,15 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.kul.taskmanager.entity.user.TokenEntity;
-import pl.kul.taskmanager.mapper.token.TokenMapper;
-import pl.kul.taskmanager.payload.JwtAuthenticationResponse;
-import pl.kul.taskmanager.payload.LoginRequest;
-import pl.kul.taskmanager.repository.TokenValidityRepository;
+import pl.kul.taskmanager.security.entity.TokenEntity;
+import pl.kul.taskmanager.security.repository.TokenRepository;
 import pl.kul.taskmanager.security.jwt.JwtTokenProvider;
-import pl.kul.taskmanager.service.token.TokenCacheService;
-import pl.kul.taskmanager.service.user.UserService;
-import pl.kul.taskmanager.validator.LoginRequestValidator;
+import pl.kul.taskmanager.security.payload.JwtAuthenticationResponse;
+import pl.kul.taskmanager.security.payload.LoginRequest;
+import pl.kul.taskmanager.security.repository.UserRepository;
+import pl.kul.taskmanager.security.service.UserService;
+
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -26,37 +26,34 @@ public class AuthenticationContext {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
-    private final TokenValidityRepository tokenValidityRepository;
+    private final TokenRepository tokenValidityRepository;
     private final UserService userService;
-    private final TokenCacheService tokenCacheService;
-    private final LoginRequestValidator validator;
+    private final UserRepository userRepository;
 
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
     public Authentication authenticate(LoginRequest loginRequest) {
         return this.authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     public JwtAuthenticationResponse getAuthenticationResponse(LoginRequest loginRequest) {
-        validator.validate(loginRequest);
-        tokenProvider.processTaxusToken(loginRequest);
+        // todo: add validation
         Authentication authentication = this.authenticate(loginRequest);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwtToken = tokenProvider.generateToken(authentication);
-        saveToken(jwtToken, loginRequest.getLogin(), jwtExpirationInMs);
+        saveToken(jwtToken, loginRequest.getEmail(), jwtExpirationInMs);
         return new JwtAuthenticationResponse(jwtToken);
     }
 
     private void saveToken(String jwtToken, @NotBlank String login, int jwtExpirationInMs) {
         UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(login);
         TokenEntity token = new TokenEntity();
-        token.setUser(userService.getReference(userPrincipal.getId()));
+        token.setUser(userRepository.findById(userPrincipal.getId()).orElse(null));
         token.setToken(jwtToken);
-        token.setValidityTime(jwtExpirationInMs);
+        token.setExpirationDate(LocalDateTime.now().plusSeconds(jwtExpirationInMs / 1000));
         tokenValidityRepository.save(token);
-        tokenCacheService.setToken(TokenMapper.MAPPER.toDTO(token, login));
     }
 
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.type.YesNoConverter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -34,6 +35,7 @@ public class UserEntity {
 
     @Column(nullable = false)
     @NotNull
+    @Convert(converter = YesNoConverter.class)
     private Boolean enabled;
 
     @CreatedDate
@@ -44,14 +46,14 @@ public class UserEntity {
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"))
-    private Set<RoleEntity> roleEntities = new HashSet<>();
+    private Set<RoleEntity> roles = new HashSet<>();
 
     @OneToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name = "USER_DETAILS_ID", unique = true)
     private UserDetailsEntity userDetails;
 
     public void addRole(RoleEntity roleEntity) {
-        roleEntities.add(roleEntity);
+        roles.add(roleEntity);
     }
 
     @Override

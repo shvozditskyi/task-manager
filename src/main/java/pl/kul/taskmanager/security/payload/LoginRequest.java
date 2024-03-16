@@ -15,7 +15,7 @@ import static pl.kul.taskmanager.commons.ValidationMessages.WRONG_SIZE;
 public class LoginRequest {
 
     @Size(max = 250, message = WRONG_SIZE)
-    private String login;
+    private String email;
 
     @Size(max = 250, message = WRONG_SIZE)
     private String password;

@@ -2,6 +2,7 @@ package pl.kul.taskmanager.security.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.type.YesNoConverter;
 
 import java.time.LocalDateTime;
 
@@ -18,10 +19,14 @@ public class TokenEntity {
     private String token;
 
     @Column(name = "ACTIVE", nullable = false)
+    @Convert(converter = YesNoConverter.class)
     private Boolean active = Boolean.TRUE;
 
     @Column(name = "CREATION_DATE", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime creationDate;
+
+    @Column(name = "EXPIRATION_DATE", nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDateTime expirationDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
