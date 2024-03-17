@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security.service;
+package pl.kul.taskmanager.security.service.token;
 
 import org.springframework.transaction.annotation.Transactional;
 

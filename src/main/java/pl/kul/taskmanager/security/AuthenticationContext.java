@@ -16,7 +16,7 @@ import pl.kul.taskmanager.security.jwt.JwtTokenProvider;
 import pl.kul.taskmanager.security.payload.JwtAuthenticationResponse;
 import pl.kul.taskmanager.security.payload.LoginRequest;
 import pl.kul.taskmanager.security.repository.UserRepository;
-import pl.kul.taskmanager.security.service.UserService;
+import pl.kul.taskmanager.security.service.user.UserService;
 
 import java.time.LocalDateTime;
 

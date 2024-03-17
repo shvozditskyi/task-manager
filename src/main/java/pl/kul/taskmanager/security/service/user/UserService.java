@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security.service;
+package pl.kul.taskmanager.security.service.user;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
