@@ -31,7 +31,7 @@ public class UserEntity {
 
     @JsonIgnore
     @Column(nullable = false)
-    private String passwd;
+    private String password;
 
     @Column(nullable = false)
     @NotNull

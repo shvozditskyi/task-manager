@@ -38,7 +38,7 @@ public class UserPrincipal implements UserDetails {
         return UserPrincipal.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .password(user.getPasswd())
+                .password(user.getPassword())
                 .enabled(user.getEnabled())
                 .authorities(authorities)
                 .roles(user.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toSet()))
