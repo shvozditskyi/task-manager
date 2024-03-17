@@ -1,5 +1,6 @@
 package pl.kul.taskmanager.security.service.user;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +15,6 @@ import pl.kul.taskmanager.security.entity.UserEntity;
 import pl.kul.taskmanager.security.repository.UserRepository;
 import pl.kul.taskmanager.security.service.permission.PermissionService;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

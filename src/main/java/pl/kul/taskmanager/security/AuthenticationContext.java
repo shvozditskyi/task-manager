@@ -47,8 +47,8 @@ public class AuthenticationContext {
         return new JwtAuthenticationResponse(jwtToken);
     }
 
-    private void saveToken(String jwtToken, @NotBlank String login, int jwtExpirationInMs) {
-        UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(login);
+    private void saveToken(String jwtToken, @NotBlank String email, int jwtExpirationInMs) {
+        UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(email);
         TokenEntity token = new TokenEntity();
         token.setUser(userRepository.findById(userPrincipal.getId()).orElse(null));
         token.setToken(jwtToken);

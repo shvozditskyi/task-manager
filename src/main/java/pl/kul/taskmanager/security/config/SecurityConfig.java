@@ -21,11 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import pl.kul.taskmanager.security.jwt.JwtAuthenticationEntryPoint;
 import pl.kul.taskmanager.security.jwt.JwtAuthenticationFilter;
 import pl.kul.taskmanager.security.jwt.JwtTokenProvider;
-import pl.kul.taskmanager.security.service.token.TokenService;
-import pl.kul.taskmanager.security.service.user.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -34,8 +33,6 @@ import pl.kul.taskmanager.security.service.user.UserService;
 public class SecurityConfig {
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final UserDetailsService userDetailsService;
-    private final TokenService tokenService;
-    private final UserService userService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -59,7 +56,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtTokenProvider(), userService, tokenService);
+        return new JwtAuthenticationFilter();
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
