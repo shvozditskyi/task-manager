@@ -4,7 +4,5 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="0" author="admin">
-
-    </changeSet>
+<!--    <include file="/db/changelog/20240317223000_create_user_table.xml"/>-->
 </databaseChangeLog>

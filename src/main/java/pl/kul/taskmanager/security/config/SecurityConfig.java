@@ -21,16 +21,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.kul.taskmanager.security.jwt.JwtAuthenticationEntryPoint;
 import pl.kul.taskmanager.security.jwt.JwtAuthenticationFilter;
 import pl.kul.taskmanager.security.jwt.JwtTokenProvider;
+import pl.kul.taskmanager.security.service.token.TokenService;
+import pl.kul.taskmanager.security.service.user.UserService;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final UserDetailsService userDetailsService;
+    private final TokenService tokenService;
+    private final UserService userService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,7 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize->authorize.requestMatchers("/", "/favicon.ico", "*.png", "*.gif", "*.svg", "*.jpg", "*.html",
                                 "*.css", "*.js")
                         .permitAll()
-                        .requestMatchers("/api/auth/**", "/api/integration/login", "/checkValid", "/logout", "/h2-console/**", "/v3/api-docs/**", "/swagger-ui", "/api/version")
+                        .requestMatchers("/api/auth/**", "/logout", "/swagger-ui", "/api/version")
                         .permitAll()
                         .anyRequest()
                         .authenticated());
@@ -54,7 +59,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(jwtTokenProvider(), userService, tokenService);
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)

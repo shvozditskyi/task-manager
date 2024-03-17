@@ -17,6 +17,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Set<PermissionEntity> getActivePermissionsForRoles(Set<String> roles) {
-        return null;
+        return permissionRepository.findByRoleNameIn(roles);
     }
 }
