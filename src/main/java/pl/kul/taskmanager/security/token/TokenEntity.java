@@ -32,7 +32,7 @@ public class TokenEntity {
     @Column(name = "EXPIRATION_DATE", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime expirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 }
