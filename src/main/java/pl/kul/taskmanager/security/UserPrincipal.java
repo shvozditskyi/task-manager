@@ -7,8 +7,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.kul.taskmanager.security.entity.RoleEntity;
-import pl.kul.taskmanager.security.entity.UserEntity;
+import pl.kul.taskmanager.security.roles.RoleEntity;
+import pl.kul.taskmanager.security.user.entity.UserEntity;
 
 import java.util.Collection;
 import java.util.HashSet;

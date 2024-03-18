@@ -1,5 +1,6 @@
 package pl.kul.taskmanager.security;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,18 +8,28 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.kul.taskmanager.security.entity.TokenEntity;
-import pl.kul.taskmanager.security.repository.TokenRepository;
-import pl.kul.taskmanager.security.jwt.JwtTokenProvider;
-import pl.kul.taskmanager.security.payload.JwtAuthenticationResponse;
-import pl.kul.taskmanager.security.payload.LoginRequest;
-import pl.kul.taskmanager.security.repository.UserRepository;
-import pl.kul.taskmanager.security.service.user.UserService;
+import pl.kul.taskmanager.security.user.UserDetailsDTO;
+import pl.kul.taskmanager.security.roles.RoleEntity;
+import pl.kul.taskmanager.security.token.TokenEntity;
+import pl.kul.taskmanager.security.user.entity.UserDetailsEntity;
+import pl.kul.taskmanager.security.user.entity.UserEntity;
+import pl.kul.taskmanager.security.roles.RolesRepository;
+import pl.kul.taskmanager.security.token.TokenRepository;
+import pl.kul.taskmanager.security.auth.jwt.JwtTokenProvider;
+import pl.kul.taskmanager.security.auth.dto.JwtAuthenticationResponse;
+import pl.kul.taskmanager.security.auth.dto.LoginRequest;
+import pl.kul.taskmanager.security.user.repository.UserDetailsRepository;
+import pl.kul.taskmanager.security.user.repository.UserRepository;
+import pl.kul.taskmanager.security.user.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -26,9 +37,14 @@ public class AuthenticationContext {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
-    private final TokenRepository tokenValidityRepository;
+    private final TokenRepository tokenRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
+    private final RolesRepository rolesRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    private static final String ROLE_USER = "ROLE_USER";
 
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
@@ -38,8 +54,17 @@ public class AuthenticationContext {
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
+    @Transactional
+    public void createAccount(UserDetailsDTO request) {
+        String requestEmail = request.getEmail();
+        if(userRepository.findByEmail(requestEmail).isPresent()){
+            throw new UsernameNotFoundException("User with email: " + requestEmail + " already exists");
+        }
+        saveUserEntity(request);
+    }
+
+    @Transactional
     public JwtAuthenticationResponse getAuthenticationResponse(LoginRequest loginRequest) {
-        // todo: add validation
         Authentication authentication = this.authenticate(loginRequest);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwtToken = tokenProvider.generateToken(authentication);
@@ -49,11 +74,36 @@ public class AuthenticationContext {
 
     private void saveToken(String jwtToken, @NotBlank String email, int jwtExpirationInMs) {
         UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(email);
-        TokenEntity token = new TokenEntity();
-        token.setUser(userRepository.findById(userPrincipal.getId()).orElse(null));
-        token.setToken(jwtToken);
-        token.setExpirationDate(LocalDateTime.now().plusSeconds(jwtExpirationInMs / 1000));
-        tokenValidityRepository.save(token);
+        tokenRepository.findByUserId(userPrincipal.getId()).ifPresent(tokenRepository::revoke);
+        TokenEntity token = TokenEntity.builder()
+                 .user(userRepository.findById(userPrincipal.getId()).orElse(null))
+                 .token(jwtToken)
+                 .creationDate(LocalDateTime.now())
+                 .active(true)
+                 .expirationDate(LocalDateTime.now().plusSeconds(jwtExpirationInMs / 1000))
+                 .build();
+        tokenRepository.save(token);
     }
 
+    private void saveUserEntity(UserDetailsDTO request) {
+        UserDetailsEntity userDetails = saveUserDetailsEntity(request);
+        Set<RoleEntity> roles = rolesRepository.findByName(ROLE_USER).map(Set::of).orElse(new HashSet<>());
+        UserEntity user = UserEntity.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .roles(roles)
+                .userDetails(userDetails)
+                .creationDate(LocalDateTime.now())
+                .enabled(true)
+                .build();
+        userRepository.save(user);
+    }
+
+    private UserDetailsEntity saveUserDetailsEntity(UserDetailsDTO request) {
+        UserDetailsEntity userDetails = UserDetailsEntity.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .build();
+        return userDetailsRepository.save(userDetails);
+    }
 }
