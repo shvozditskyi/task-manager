@@ -13,20 +13,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.kul.taskmanager.security.user.UserPrincipal;
-import pl.kul.taskmanager.security.user.UserDetailsDTO;
+import pl.kul.taskmanager.security.UserPrincipal;
+import pl.kul.taskmanager.user.UserDetailsDTO;
 import pl.kul.taskmanager.security.roles.RoleEntity;
 import pl.kul.taskmanager.security.token.TokenEntity;
-import pl.kul.taskmanager.security.user.entity.UserDetailsEntity;
-import pl.kul.taskmanager.security.user.entity.UserEntity;
+import pl.kul.taskmanager.user.entity.UserDetailsEntity;
+import pl.kul.taskmanager.user.entity.UserEntity;
 import pl.kul.taskmanager.security.roles.RolesRepository;
 import pl.kul.taskmanager.security.token.TokenRepository;
 import pl.kul.taskmanager.security.auth.jwt.JwtTokenProvider;
 import pl.kul.taskmanager.security.auth.dto.JwtAuthenticationResponse;
 import pl.kul.taskmanager.security.auth.dto.LoginRequest;
-import pl.kul.taskmanager.security.user.repository.UserDetailsRepository;
-import pl.kul.taskmanager.security.user.repository.UserRepository;
-import pl.kul.taskmanager.security.user.service.UserService;
+import pl.kul.taskmanager.user.repository.UserDetailsRepository;
+import pl.kul.taskmanager.user.repository.UserRepository;
+import pl.kul.taskmanager.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -87,23 +87,24 @@ public class AuthenticationContext {
     }
 
     private void saveUserEntity(UserDetailsDTO request) {
-        UserDetailsEntity userDetails = saveUserDetailsEntity(request);
         Set<RoleEntity> roles = rolesRepository.findByName(ROLE_USER).map(Set::of).orElse(new HashSet<>());
         UserEntity user = UserEntity.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(roles)
-                .userDetails(userDetails)
                 .creationDate(LocalDateTime.now())
                 .enabled(true)
                 .build();
         userRepository.save(user);
+        saveUserDetailsEntity(request, user);
     }
 
-    private UserDetailsEntity saveUserDetailsEntity(UserDetailsDTO request) {
+    private UserDetailsEntity saveUserDetailsEntity(UserDetailsDTO request, UserEntity userEntity) {
         UserDetailsEntity userDetails = UserDetailsEntity.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .phoneNumber(request.getPhoneNumber())
+                .user(userEntity)
                 .build();
         return userDetailsRepository.save(userDetails);
     }

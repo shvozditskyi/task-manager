@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security.user;
+package pl.kul.taskmanager.security;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.kul.taskmanager.security.roles.RoleEntity;
-import pl.kul.taskmanager.security.user.entity.UserEntity;
+import pl.kul.taskmanager.user.entity.UserEntity;
 
 import java.util.Collection;
 import java.util.HashSet;

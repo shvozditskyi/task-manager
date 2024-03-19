@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pl.kul.taskmanager.security.token.service.TokenService;
-import pl.kul.taskmanager.security.user.service.UserService;
+import pl.kul.taskmanager.user.service.UserService;
 import pl.kul.taskmanager.security.token.TokenUtils;
 
 import java.io.IOException;

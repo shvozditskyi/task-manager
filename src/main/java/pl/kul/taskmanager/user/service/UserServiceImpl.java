@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security.user.service;
+package pl.kul.taskmanager.user.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,11 +8,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.kul.taskmanager.security.user.UserPrincipal;
-import pl.kul.taskmanager.security.user.UserDetailsDTO;
+import pl.kul.taskmanager.security.UserPrincipal;
+import pl.kul.taskmanager.user.UserDetailsDTO;
 import pl.kul.taskmanager.security.roles.RoleEntity;
-import pl.kul.taskmanager.security.user.entity.UserEntity;
-import pl.kul.taskmanager.security.user.repository.UserRepository;
+import pl.kul.taskmanager.user.entity.UserEntity;
+import pl.kul.taskmanager.user.repository.UserRepository;
 import pl.kul.taskmanager.security.permission.service.PermissionService;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package pl.kul.taskmanager.security.token;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.type.YesNoConverter;
-import pl.kul.taskmanager.security.user.entity.UserEntity;
+import pl.kul.taskmanager.user.entity.UserEntity;
 
 import java.time.LocalDateTime;
 

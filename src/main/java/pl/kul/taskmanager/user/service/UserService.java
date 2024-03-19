@@ -1,9 +1,9 @@
-package pl.kul.taskmanager.security.user.service;
+package pl.kul.taskmanager.user.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import pl.kul.taskmanager.security.user.UserDetailsDTO;
+import pl.kul.taskmanager.user.UserDetailsDTO;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security.user.entity;
+package pl.kul.taskmanager.user.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,10 +43,6 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"))
     private Set<RoleEntity> roles;
-
-    @OneToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "USER_DETAILS_ID", unique = true)
-    private UserDetailsEntity userDetails;
 
     public void addRole(RoleEntity roleEntity) {
         roles.add(roleEntity);

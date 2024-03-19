@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.kul.taskmanager.security.user.UserDetailsDTO;
+import pl.kul.taskmanager.user.UserDetailsDTO;
 import pl.kul.taskmanager.security.auth.jwt.JwtTokenProvider;
 import pl.kul.taskmanager.security.auth.dto.JwtAuthenticationResponse;
 import pl.kul.taskmanager.security.auth.dto.LoginRequest;

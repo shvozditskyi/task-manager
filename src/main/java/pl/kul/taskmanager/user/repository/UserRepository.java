@@ -1,7 +1,7 @@
-package pl.kul.taskmanager.security.user.repository;
+package pl.kul.taskmanager.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.kul.taskmanager.security.user.entity.UserEntity;
+import pl.kul.taskmanager.user.entity.UserEntity;
 
 import java.util.Optional;
 

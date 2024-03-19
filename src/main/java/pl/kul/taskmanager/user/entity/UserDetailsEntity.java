@@ -1,10 +1,14 @@
-package pl.kul.taskmanager.security.user.entity;
+package pl.kul.taskmanager.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.kul.taskmanager.board.entity.BoardUserEntity;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "USER_DETAILS")
@@ -26,4 +30,12 @@ public class UserDetailsEntity {
 
     @Column(name = "PHONE_NUMBER", length = 13)
     private String phoneNumber;
+
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<BoardUserEntity> userBoards;
+
+    @OneToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private UserEntity user;
 }
