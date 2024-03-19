@@ -24,7 +24,7 @@ public class TokenEntity {
 
     @Column(name = "ACTIVE", nullable = false)
     @Convert(converter = YesNoConverter.class)
-    private Boolean active;
+    private Boolean isActive;
 
     @Column(name = "CREATION_DATE", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime creationDate;

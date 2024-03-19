@@ -28,6 +28,9 @@ public class BoardEntity {
     @Column(name = "description", length = 200)
     private String description;
 
+    @Column(name = "color", length = 7, nullable = false)
+    private String color;
+
     @Column(name = "board_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private BoardType boardType;

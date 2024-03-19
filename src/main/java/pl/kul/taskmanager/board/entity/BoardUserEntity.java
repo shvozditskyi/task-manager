@@ -4,6 +4,7 @@ package pl.kul.taskmanager.board.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.type.YesNoConverter;
+import pl.kul.taskmanager.user.entity.UserDetailsEntity;
 import pl.kul.taskmanager.user.entity.UserEntity;
 
 @Entity
@@ -19,10 +20,18 @@ public class BoardUserEntity {
     private Long id;
 
     @OneToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "OWNER_ID", referencedColumnName = "ID")
-    private UserEntity user;
+    @JoinColumn(name = "BOARD_ID", referencedColumnName = "ID")
+    private BoardEntity board;
+
+    @OneToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private UserDetailsEntity user;
 
     @Column(name = "IS_OWNER", nullable = false)
     @Convert(converter = YesNoConverter.class)
     private Boolean isOwner;
+
+    @Column(name = "IS_DEFAULT", nullable = false)
+    @Convert(converter = YesNoConverter.class)
+    private Boolean isDefault;
 }

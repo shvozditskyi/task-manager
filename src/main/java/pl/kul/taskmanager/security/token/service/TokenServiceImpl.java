@@ -21,7 +21,7 @@ public class TokenServiceImpl implements TokenService {
     public boolean checkValid(String token) {
         TokenEntity tokenEntity = tokenRepository.findByTokenAndActive(token)
                 .orElse(null);
-        if (tokenEntity == null || tokenEntity.getActive() == null || !tokenEntity.getActive()) {
+        if (tokenEntity == null || tokenEntity.getIsActive() == null || !tokenEntity.getIsActive()) {
             return false;
         }
         if (tokenEntity.getToken() != null && !tokenProvider.validateToken(token)) {

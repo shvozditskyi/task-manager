@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface TokenRepository extends JpaRepository<TokenEntity, Long> {
 
-    @Query("select t from TokenEntity t where t.token = :token and t.active = true")
+    @Query("select t from TokenEntity t where t.token = :token and t.isActive = true")
     Optional<TokenEntity> findByTokenAndActive(String token);
 
     @Modifying
     @Query("delete from TokenEntity t where t.token = :token")
     void revoke(String token);
 
-    @Query("select t.token from TokenEntity t where t.user.id = :userId and t.active = true")
+    @Query("select t.token from TokenEntity t where t.user.id = :userId and t.isActive = true")
     Optional<String> findByUserId(Long userId);
 }

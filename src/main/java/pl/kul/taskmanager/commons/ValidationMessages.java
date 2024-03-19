@@ -23,4 +23,8 @@ public class ValidationMessages {
     public final static String PHONE_NUMBER_SIZE = "Phone number must contain from 9 to 13 characters";
     public final static String PHONE_NUMBER_REGEXP = "^[0-9]*$";
     public final static String PHONE_NUMBER_IS_NOT_VALID = "Phone number must contain only digits";
+    public static final String NAME_IS_REQUIRED = "Name is required";
+    public static final String NAME_LENGTH = "Name must contain up to 50 characters";
+    public static final String DESCRIPTION_LENGTH = "Description must contain up to 200 characters";
+    public static final String COLOR_IS_NOT_VALID = "Color must be in hex format, for example: #FFFFFF or #FFF";
 }

@@ -32,7 +32,7 @@ public class PermissionEntity {
 
     @Column(name = "ACTIVE", nullable = false)
     @Convert(converter = YesNoConverter.class)
-    private Boolean active = Boolean.FALSE;
+    private Boolean isActive = Boolean.FALSE;
 
     @JsonIgnore
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },

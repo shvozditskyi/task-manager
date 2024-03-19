@@ -80,7 +80,7 @@ public class AuthenticationContext {
                  .user(userRepository.findById(userPrincipal.getId()).orElse(null))
                  .token(jwtToken)
                  .creationDate(LocalDateTime.now())
-                 .active(true)
+                 .isActive(true)
                  .expirationDate(LocalDateTime.now().plusSeconds(jwtExpirationInMs / 1000))
                  .build();
         tokenRepository.save(token);

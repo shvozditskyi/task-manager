@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class TokenDTO {
     private Long id;
     private String email;
-    private Boolean active;
+    private Boolean isActive;
     private int validityTime;
     private String token;
 }

@@ -9,7 +9,7 @@ public class TokenMapper {
         return TokenDTO.builder()
                 .id(tokenEntity.getId())
                 .token(tokenEntity.getToken())
-                .active(tokenEntity.getActive())
+                .isActive(tokenEntity.getIsActive())
                 .build();
     }
 
@@ -18,7 +18,7 @@ public class TokenMapper {
                 .id(tokenEntity.getId())
                 .email(tokenEntity.getUser().getEmail())
                 .token(tokenEntity.getToken())
-                .active(tokenEntity.getActive())
+                .isActive(tokenEntity.getIsActive())
                 .build();
     }
 }

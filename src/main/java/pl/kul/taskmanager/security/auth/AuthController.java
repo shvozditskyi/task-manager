@@ -16,8 +16,10 @@ import pl.kul.taskmanager.security.token.TokenUtils;
 
 import java.util.Map;
 
+import static pl.kul.taskmanager.commons.RestConstants.AUTH;
+
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(AUTH)
 @RequiredArgsConstructor
 public class AuthController {
 
