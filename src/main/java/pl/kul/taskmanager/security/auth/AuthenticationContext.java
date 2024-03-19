@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security;
+package pl.kul.taskmanager.security.auth;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import pl.kul.taskmanager.security.user.UserPrincipal;
 import pl.kul.taskmanager.security.user.UserDetailsDTO;
 import pl.kul.taskmanager.security.roles.RoleEntity;
 import pl.kul.taskmanager.security.token.TokenEntity;

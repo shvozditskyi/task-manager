@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import pl.kul.taskmanager.security.UserPrincipal;
+import pl.kul.taskmanager.security.user.UserPrincipal;
 
 import java.security.Key;
 import java.util.Date;

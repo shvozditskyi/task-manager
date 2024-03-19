@@ -6,12 +6,12 @@ spring:
     name: task-manager
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3309/task_manager
+    url: jdbc:mysql://localhost:3306/task_manager
     username: root
     password: root
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:

@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.security;
+package pl.kul.taskmanager.security.user;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
