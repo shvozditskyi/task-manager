@@ -1,7 +1,5 @@
-package pl.kul.taskmanager.user.entity.requests;
+package pl.kul.taskmanager.user.requests;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -10,11 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.commons.AbstractDTO;
 import pl.kul.taskmanager.commons.ValidationMessages;
-import pl.kul.taskmanager.user.entity.requests.enums.UserRequestStatus;
-import pl.kul.taskmanager.user.entity.requests.enums.UserRequestType;
+import pl.kul.taskmanager.user.requests.enums.UserRequestStatus;
+import pl.kul.taskmanager.user.requests.enums.UserRequestType;
 
 @Data
 @AllArgsConstructor

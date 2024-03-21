@@ -1,14 +1,12 @@
-package pl.kul.taskmanager.user.entity.requests;
+package pl.kul.taskmanager.user.requests;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonKey;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.commons.AbstractEntity;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
-import pl.kul.taskmanager.user.entity.requests.enums.UserRequestStatus;
-import pl.kul.taskmanager.user.entity.requests.enums.UserRequestType;
+import pl.kul.taskmanager.user.requests.enums.UserRequestStatus;
+import pl.kul.taskmanager.user.requests.enums.UserRequestType;
 
 @Entity
 @Table(name = "INVITATION_REQUEST")

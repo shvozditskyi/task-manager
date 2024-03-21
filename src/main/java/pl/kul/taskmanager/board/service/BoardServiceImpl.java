@@ -13,8 +13,6 @@ import pl.kul.taskmanager.board.mapper.BoardUserMapper;
 import pl.kul.taskmanager.board.repository.BoardRepository;
 import pl.kul.taskmanager.board.repository.BoardUserRepository;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
-import pl.kul.taskmanager.user.entity.requests.UserRequestMapper;
-import pl.kul.taskmanager.user.entity.requests.UserRequestRepository;
 import pl.kul.taskmanager.user.utils.UserUtils;
 
 import java.util.List;

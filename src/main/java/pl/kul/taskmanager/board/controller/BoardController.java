@@ -1,7 +1,6 @@
 package pl.kul.taskmanager.board.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.kul.taskmanager.board.dto.BoardDTO;
 import pl.kul.taskmanager.board.dto.BoardUserDTO;
 import pl.kul.taskmanager.board.service.BoardService;
-import pl.kul.taskmanager.user.entity.requests.UserRequestDTO;
-import pl.kul.taskmanager.user.entity.requests.UserRequestService;
+import pl.kul.taskmanager.user.requests.UserRequestDTO;
+import pl.kul.taskmanager.user.requests.UserRequestService;
 
 import java.util.List;
 

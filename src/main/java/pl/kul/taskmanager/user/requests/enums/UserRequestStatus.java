@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.user.entity.requests.enums;
+package pl.kul.taskmanager.user.requests.enums;
 
 public enum UserRequestStatus {
     PENDING,

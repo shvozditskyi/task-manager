@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.kul.taskmanager.board.entity.BoardUserEntity;
 import pl.kul.taskmanager.commons.AbstractEntity;
-import pl.kul.taskmanager.user.entity.requests.UserRequestEntity;
+import pl.kul.taskmanager.user.requests.UserRequestEntity;
 
 import java.util.Set;
 

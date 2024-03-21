@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.commons.AbstractEntity;
-import pl.kul.taskmanager.user.entity.requests.UserRequestEntity;
+import pl.kul.taskmanager.user.requests.UserRequestEntity;
 
 import java.time.LocalDateTime;
 import java.util.Set;

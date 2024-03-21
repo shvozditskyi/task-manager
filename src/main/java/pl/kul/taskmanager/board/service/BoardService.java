@@ -2,7 +2,6 @@ package pl.kul.taskmanager.board.service;
 
 import pl.kul.taskmanager.board.dto.BoardDTO;
 import pl.kul.taskmanager.board.dto.BoardUserDTO;
-import pl.kul.taskmanager.user.entity.requests.UserRequestDTO;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package pl.kul.taskmanager.user.entity.requests;
+package pl.kul.taskmanager.user.requests;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
