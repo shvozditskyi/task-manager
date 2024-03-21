@@ -27,4 +27,10 @@ public class ValidationMessages {
     public static final String NAME_LENGTH = "Name must contain up to 50 characters";
     public static final String DESCRIPTION_LENGTH = "Description must contain up to 200 characters";
     public static final String COLOR_IS_NOT_VALID = "Color must be in hex format, for example: #FFFFFF or #FFF";
+    public static final String REQUEST_MESSAGE_TOO_LONG = "Request message is too long";
+    public static final String REQUEST_TYPE_NOT_NULL = "Request type is required";
+    public static final String RECEIVER_NOT_NULL = "Receiver email is required";
+    public static final String SENDER_NULL = "Sender email must be null";
+    public static final String BOARD_ID_NULL = "Board id must be null";
+    public static final String REQUEST_STATUS_NULL = "Request status must be null";
 }

@@ -11,8 +11,19 @@ public class UserUtils {
 
     private final UserDetailsRepository userDetailsRepository;
 
-    public UserDetailsEntity findUserDetailsByUserId(Long userDetailsId) {
+    public UserDetailsEntity findByUserId(Long userDetailsId) {
         return userDetailsRepository.findById(userDetailsId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public UserDetailsEntity findByEmail(String email) {
+        return userDetailsRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public Long getIdByEmail(String email) {
+        return userDetailsRepository.findByEmail(email)
+                .map(UserDetailsEntity::getId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

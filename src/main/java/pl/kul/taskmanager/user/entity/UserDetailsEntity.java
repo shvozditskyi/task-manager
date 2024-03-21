@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.kul.taskmanager.board.entity.BoardUserEntity;
 import pl.kul.taskmanager.commons.AbstractEntity;
+import pl.kul.taskmanager.user.entity.requests.UserRequestEntity;
 
 import java.util.Set;
 
@@ -33,8 +34,12 @@ public class UserDetailsEntity extends AbstractEntity {
     private String phoneNumber;
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<BoardUserEntity> userBoards;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender", cascade = { CascadeType.ALL })
+    private Set<UserRequestEntity> joinRequests;
 
     @OneToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")

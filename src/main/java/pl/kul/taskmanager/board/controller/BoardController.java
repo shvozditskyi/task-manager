@@ -1,17 +1,16 @@
 package pl.kul.taskmanager.board.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.kul.taskmanager.board.dto.BoardDTO;
 import pl.kul.taskmanager.board.dto.BoardUserDTO;
 import pl.kul.taskmanager.board.service.BoardService;
+import pl.kul.taskmanager.user.entity.requests.UserRequestDTO;
+import pl.kul.taskmanager.user.entity.requests.UserRequestService;
 
 import java.util.List;
 
@@ -23,9 +22,10 @@ import static pl.kul.taskmanager.commons.RestConstants.BOARD;
 @RequestMapping(BOARD)
 public class BoardController {
     private final BoardService boardService;
+    private final UserRequestService userRequestService;
 
     @PostMapping
-    public ResponseEntity<Void> createPrivateBoard(@Valid BoardDTO boardDTO) {
+    public ResponseEntity<Void> createPrivateBoard(@RequestBody @Valid BoardDTO boardDTO) {
         log.debug("Creating board: {}", boardDTO);
         boardService.createBoard(boardDTO);
         return ResponseEntity.ok().build();
@@ -41,5 +41,32 @@ public class BoardController {
     public ResponseEntity<BoardDTO> getBoardById(@PathVariable(name = "boardId") Long boardId) {
         log.debug("Getting board for single user");
         return ResponseEntity.ok(boardService.getBoard(boardId));
+    }
+
+    @PostMapping("/{boardId}")
+    public ResponseEntity<Void> makeBoardAsDefault(@PathVariable(name = "boardId") Long boardId) {
+        log.debug("Making board as default for single user");
+        boardService.setDefaultBoard(boardId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<BoardUserDTO> getDefaultBoardId() {
+        log.debug("Getting default board for single user");
+        return ResponseEntity.ok(boardService.getDefaultBoardId());
+    }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable(name = "boardId") Long boardId) {
+        log.debug("Deleting board for single user");
+        boardService.deleteBoard(boardId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/invite")
+    public ResponseEntity<Void> inviteUserToBoard(@RequestBody @Valid UserRequestDTO userRequestDTO) {
+        log.debug("Inviting user to board");
+        userRequestService.inviteUserToBoard(userRequestDTO);
+        return ResponseEntity.ok().build();
     }
 }

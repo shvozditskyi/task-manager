@@ -29,4 +29,25 @@ public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long
             and b.isActive = true
             """)
     List<BoardUserEntity> findActiveBoardsByUserId(Long userId);
+
+@Query("""
+            select bu
+            from BoardUserEntity bu
+            join fetch bu.user u
+            join fetch bu.board b
+            where u.id = :userId
+            and b.id = :boardId
+            """)
+    Optional<BoardUserEntity> findByUserIdAndBoardId(Long userId, Long boardId);
+
+    @Query("""
+            select bu
+            from BoardUserEntity bu
+            join fetch bu.user u
+            join fetch bu.board b
+            where u.id = :userId
+            and b.id = :boardId
+            and bu.isOwner = true
+            """)
+    Optional<BoardUserEntity> findByUserIdAndIsOwnerAndBoardId(Long userId, Long boardId);
 }

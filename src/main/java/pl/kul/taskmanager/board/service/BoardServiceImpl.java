@@ -13,7 +13,9 @@ import pl.kul.taskmanager.board.mapper.BoardUserMapper;
 import pl.kul.taskmanager.board.repository.BoardRepository;
 import pl.kul.taskmanager.board.repository.BoardUserRepository;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
-import pl.kul.taskmanager.user.repository.UserDetailsRepository;
+import pl.kul.taskmanager.user.entity.requests.UserRequestMapper;
+import pl.kul.taskmanager.user.entity.requests.UserRequestRepository;
+import pl.kul.taskmanager.user.utils.UserUtils;
 
 import java.util.List;
 
@@ -26,16 +28,16 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
     private final BoardUserRepository boardUserRepository;
-    private final UserDetailsRepository userDetailRepository;
     private final BoardMapper boardMapper;
     private final BoardUserMapper boardUserMapper;
+    private final UserUtils userUtils;
 
     @Override
     @Transactional
     public void createBoard(BoardDTO boardDTO) {
         BoardEntity boardEntity = boardMapper.mapToEntity(boardDTO);
         boardRepository.save(boardEntity);
-        UserDetailsEntity user = findUserById();
+        UserDetailsEntity user = userUtils.findByUserId(getUserId());
         saveBoardForUser(boardEntity, user, boardDTO.getIsDefault());
     }
 
@@ -54,6 +56,36 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(() -> new RuntimeException("Board not found"));
     }
 
+    @Override
+    public void setDefaultBoard(Long boardId) {
+        boardUserRepository.findByUserIdAndBoardId(getUserId(), boardId)
+                .ifPresentOrElse(this::makeBoardAsDefault,
+                        () -> {
+                            throw new RuntimeException("Board not found");
+                        });
+    }
+
+    @Override
+    public BoardUserDTO getDefaultBoardId() {
+        return boardUserRepository.findByUserIdAndDefaultTrue(getUserId())
+                .map(boardUserMapper::mapToDTO)
+                .orElse(null);
+    }
+
+    @Override
+    public void deleteBoard(Long boardId) {
+        BoardUserEntity boardUserEntity = boardUserRepository.findByUserIdAndIsOwnerAndBoardId(getUserId(), boardId)
+                .orElseThrow(() -> new RuntimeException("Board not found"));
+        boardUserRepository.delete(boardUserEntity);
+    }
+
+    private void validateIfUserIsNotAlreadyInBoard(Long boardId, Long invitedUserId) {
+        boardUserRepository.findByUserIdAndBoardId(invitedUserId, boardId)
+                .ifPresent(bu -> {
+                    throw new RuntimeException("User already has access to this board");
+                });
+    }
+
     private void saveBoardForUser(BoardEntity boardEntity, UserDetailsEntity user, Boolean isDefault) {
         changeDefaultBoardForUser(isDefault, user);
         BoardUserEntity boardUserEntity = BoardUserEntity.builder()
@@ -66,14 +98,23 @@ public class BoardServiceImpl implements BoardService {
     }
 
     private void changeDefaultBoardForUser(Boolean isDefault, UserDetailsEntity user) {
-        if(isDefault) {
+        if (isDefault) {
             boardUserRepository.findByUserIdAndDefaultTrue(user.getId())
                     .ifPresent(bu -> bu.setIsDefault(false));
         }
     }
 
-    private UserDetailsEntity findUserById() {
-        return userDetailRepository.findById(getUserId()).orElseThrow(
-                () -> new RuntimeException("User not found"));
+    private void makeBoardAsDefault(BoardUserEntity bu) {
+        if (!bu.getBoard().getIsActive()) {
+            throw new RuntimeException("Board is not active");
+        }
+        changeDefaultBoardForUser(true, bu.getUser());
+        bu.setIsDefault(true);
+        boardUserRepository.save(bu);
+    }
+
+    private BoardEntity findBoardById(Long boardId) {
+        return boardRepository.findById(boardId)
+                .orElseThrow(() -> new RuntimeException("Board not found"));
     }
 }

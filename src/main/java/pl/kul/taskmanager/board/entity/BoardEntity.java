@@ -1,5 +1,6 @@
 package pl.kul.taskmanager.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,8 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.commons.AbstractEntity;
+import pl.kul.taskmanager.user.entity.requests.UserRequestEntity;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "BOARD")
@@ -42,6 +45,10 @@ public class BoardEntity extends AbstractEntity {
 
     @Column(name = "creation_date", updatable = false)
     private LocalDateTime creationDate;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL })
+    private Set<UserRequestEntity> joinRequests;
 
     //todo: add relation to groups after groups implementation
 }

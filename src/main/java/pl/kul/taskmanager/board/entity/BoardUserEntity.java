@@ -24,7 +24,7 @@ public class BoardUserEntity extends AbstractEntity {
     @JoinColumn(name = "BOARD_ID", referencedColumnName = "ID")
     private BoardEntity board;
 
-    @OneToOne(cascade = { CascadeType.ALL })
+    @ManyToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private UserDetailsEntity user;
 

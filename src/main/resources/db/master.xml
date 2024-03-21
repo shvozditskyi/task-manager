@@ -4,5 +4,4 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="/db/changelog/202403182300_add_default_value_to_enable_column.xml"/>
 </databaseChangeLog>

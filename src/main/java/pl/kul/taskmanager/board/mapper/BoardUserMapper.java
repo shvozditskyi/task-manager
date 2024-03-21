@@ -18,7 +18,7 @@ public class BoardUserMapper implements AbstractMapper<BoardUserDTO, BoardUserEn
     public BoardUserEntity mapToEntity(BoardUserDTO dto) {
         return BoardUserEntity.builder()
                 .board(boardMapper.mapToEntity(dto.getBoard()))
-                .user(userUtils.findUserDetailsByUserId(dto.getUserId()))
+                .user(userUtils.findByUserId(dto.getUserId()))
                 .isOwner(dto.getIsOwner())
                 .isDefault(dto.getIsDefault())
                 .build();
