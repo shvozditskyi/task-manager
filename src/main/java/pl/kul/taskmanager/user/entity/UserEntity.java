@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.type.YesNoConverter;
 
 import jakarta.persistence.*;
+import pl.kul.taskmanager.commons.AbstractEntity;
 import pl.kul.taskmanager.security.roles.RoleEntity;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserEntity {
+public class UserEntity extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.kul.taskmanager.commons.AbstractDTO;
 
 import static pl.kul.taskmanager.commons.ValidationMessages.*;
 
@@ -17,7 +18,7 @@ import static pl.kul.taskmanager.commons.ValidationMessages.*;
 @NoArgsConstructor
 @ToString
 @Builder
-public class UserDetailsDTO {
+public class UserDetailsDTO extends AbstractDTO {
     @NotBlank(message = EMAIL_IS_REQUIRED)
     @Size(min = 4, max = 100, message = EMAIL_SIZE)
     @Email(message = EMAIL_IS_NOT_VALID)

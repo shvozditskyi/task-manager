@@ -4,16 +4,19 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.kul.taskmanager.board.BoardDTO;
+import pl.kul.taskmanager.board.dto.BoardDTO;
+import pl.kul.taskmanager.board.dto.BoardUserDTO;
 import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.board.entity.BoardUserEntity;
 import pl.kul.taskmanager.board.mapper.BoardMapper;
+import pl.kul.taskmanager.board.mapper.BoardUserMapper;
 import pl.kul.taskmanager.board.repository.BoardRepository;
 import pl.kul.taskmanager.board.repository.BoardUserRepository;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
 import pl.kul.taskmanager.user.repository.UserDetailsRepository;
 
-import static pl.kul.taskmanager.board.mapper.BoardMapper.mapToEntity;
+import java.util.List;
+
 import static pl.kul.taskmanager.security.SecurityUtils.getUserId;
 
 @Slf4j
@@ -24,14 +27,31 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
     private final BoardUserRepository boardUserRepository;
     private final UserDetailsRepository userDetailRepository;
+    private final BoardMapper boardMapper;
+    private final BoardUserMapper boardUserMapper;
 
     @Override
     @Transactional
     public void createBoard(BoardDTO boardDTO) {
-        BoardEntity boardEntity = mapToEntity(boardDTO);
+        BoardEntity boardEntity = boardMapper.mapToEntity(boardDTO);
         boardRepository.save(boardEntity);
         UserDetailsEntity user = findUserById();
         saveBoardForUser(boardEntity, user, boardDTO.getIsDefault());
+    }
+
+    @Override
+    public List<BoardUserDTO> getUserBoards() {
+        return boardUserRepository.findActiveBoardsByUserId(getUserId())
+                .stream()
+                .map(boardUserMapper::mapToDTO)
+                .toList();
+    }
+
+    @Override
+    public BoardDTO getBoard(Long boardId) {
+        return boardRepository.findActiveBoardByBoardIdAndUserId(boardId, getUserId())
+                .map(boardMapper::mapToDTO)
+                .orElseThrow(() -> new RuntimeException("Board not found"));
     }
 
     private void saveBoardForUser(BoardEntity boardEntity, UserDetailsEntity user, Boolean isDefault) {

@@ -4,6 +4,7 @@ package pl.kul.taskmanager.board.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.type.YesNoConverter;
+import pl.kul.taskmanager.commons.AbstractEntity;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
 import pl.kul.taskmanager.user.entity.UserEntity;
 
@@ -14,7 +15,7 @@ import pl.kul.taskmanager.user.entity.UserEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardUserEntity {
+public class BoardUserEntity extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_user_seq")
     private Long id;

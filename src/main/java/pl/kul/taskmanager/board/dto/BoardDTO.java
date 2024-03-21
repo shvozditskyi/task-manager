@@ -1,10 +1,11 @@
-package pl.kul.taskmanager.board;
+package pl.kul.taskmanager.board.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.kul.taskmanager.board.entity.BoardType;
+import pl.kul.taskmanager.commons.AbstractDTO;
 import pl.kul.taskmanager.commons.ValidationMessages;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import static pl.kul.taskmanager.commons.ValidationMessages.NAME_IS_REQUIRED;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardDTO {
+public class BoardDTO extends AbstractDTO {
     @NotNull(message = NAME_IS_REQUIRED)
     @Size(max = 50, message = ValidationMessages.NAME_LENGTH)
     private String name;
@@ -26,7 +27,9 @@ public class BoardDTO {
     private String color;
     private BoardType boardType;
     private LocalDateTime creationDate;
-    private Boolean isActive;
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
     @NotNull
-    private Boolean isDefault;
+    @Builder.Default
+    private Boolean isDefault = Boolean.FALSE;
 }

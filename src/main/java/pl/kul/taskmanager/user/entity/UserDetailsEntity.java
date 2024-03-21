@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.kul.taskmanager.board.entity.BoardUserEntity;
+import pl.kul.taskmanager.commons.AbstractEntity;
 
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDetailsEntity {
+public class UserDetailsEntity extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_details_seq")
     @Column(name = "ID", nullable = false, unique = true)
