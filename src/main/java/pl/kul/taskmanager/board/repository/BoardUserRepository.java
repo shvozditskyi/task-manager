@@ -13,8 +13,8 @@ public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long
     @Query("""
             select bu 
             from BoardUserEntity bu
-            join fetch bu.user u
-            join fetch bu.board b
+            join bu.user u
+            join bu.board b
             where u.id = :userId 
             and bu.isDefault = true
             """)
@@ -23,8 +23,8 @@ public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long
     @Query("""
             select bu
             from BoardUserEntity bu
-            join fetch bu.user u
-            join fetch bu.board b
+            join bu.user u
+            join bu.board b
             where u.id = :userId
             and b.isActive = true
             """)
@@ -33,8 +33,8 @@ public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long
 @Query("""
             select bu
             from BoardUserEntity bu
-            join fetch bu.user u
-            join fetch bu.board b
+            join bu.user u
+            join bu.board b
             where u.id = :userId
             and b.id = :boardId
             """)
@@ -43,8 +43,8 @@ public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long
     @Query("""
             select bu
             from BoardUserEntity bu
-            join fetch bu.user u
-            join fetch bu.board b
+            join bu.user u
+            join bu.board b
             where u.id = :userId
             and b.id = :boardId
             and bu.isOwner = true

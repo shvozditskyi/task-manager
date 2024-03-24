@@ -10,8 +10,8 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
     @Query("""
             select bu from BoardUserEntity bu
-            join fetch bu.board b
-            join fetch bu.user u
+            join bu.board b
+            join bu.user u
             where b.id = :boardId
             and u.id = :userId
             and b.isActive = true

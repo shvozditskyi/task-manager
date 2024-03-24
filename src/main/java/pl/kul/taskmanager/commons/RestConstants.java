@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 public class RestConstants {
     public static final String API = "/api";
     public static final String AUTH = API + "/auth";
-    public static final String BOARD = API + "/board";
+    public static final String BOARDS = API + "/boards";
+    public static final String USER_REQUEST = API + "/user-request";
 }

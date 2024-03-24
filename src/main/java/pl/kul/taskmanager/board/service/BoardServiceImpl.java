@@ -36,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
         BoardEntity boardEntity = boardMapper.mapToEntity(boardDTO);
         boardRepository.save(boardEntity);
         UserDetailsEntity user = userUtils.findByUserId(getUserId());
-        saveBoardForUser(boardEntity, user, boardDTO.getIsDefault());
+        saveBoardForUser(boardEntity, user, boardDTO.getIsDefault(), true);
     }
 
     @Override
@@ -77,19 +77,19 @@ public class BoardServiceImpl implements BoardService {
         boardUserRepository.delete(boardUserEntity);
     }
 
-    private void validateIfUserIsNotAlreadyInBoard(Long boardId, Long invitedUserId) {
-        boardUserRepository.findByUserIdAndBoardId(invitedUserId, boardId)
-                .ifPresent(bu -> {
-                    throw new RuntimeException("User already has access to this board");
-                });
+    @Override
+    public void addUserToBoard(Long receiverId, Long boardId) {
+        UserDetailsEntity user = userUtils.findByUserId(receiverId);
+        BoardEntity boardEntity = findBoardById(boardId);
+        saveBoardForUser(boardEntity, user, false, false);
     }
 
-    private void saveBoardForUser(BoardEntity boardEntity, UserDetailsEntity user, Boolean isDefault) {
+    private void saveBoardForUser(BoardEntity boardEntity, UserDetailsEntity user, Boolean isDefault, Boolean isOwner) {
         changeDefaultBoardForUser(isDefault, user);
         BoardUserEntity boardUserEntity = BoardUserEntity.builder()
                 .board(boardEntity)
                 .user(user)
-                .isOwner(true)
+                .isOwner(isOwner)
                 .isDefault(isDefault)
                 .build();
         boardUserRepository.save(boardUserEntity);

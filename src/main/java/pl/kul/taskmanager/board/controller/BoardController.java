@@ -13,12 +13,12 @@ import pl.kul.taskmanager.user.requests.UserRequestService;
 
 import java.util.List;
 
-import static pl.kul.taskmanager.commons.RestConstants.BOARD;
+import static pl.kul.taskmanager.commons.RestConstants.BOARDS;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(BOARD)
+@RequestMapping(BOARDS)
 public class BoardController {
     private final BoardService boardService;
     private final UserRequestService userRequestService;
@@ -42,14 +42,14 @@ public class BoardController {
         return ResponseEntity.ok(boardService.getBoard(boardId));
     }
 
-    @PostMapping("/{boardId}")
+    @PostMapping("default/{boardId}")
     public ResponseEntity<Void> makeBoardAsDefault(@PathVariable(name = "boardId") Long boardId) {
         log.debug("Making board as default for single user");
         boardService.setDefaultBoard(boardId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/default")
     public ResponseEntity<BoardUserDTO> getDefaultBoardId() {
         log.debug("Getting default board for single user");
         return ResponseEntity.ok(boardService.getDefaultBoardId());

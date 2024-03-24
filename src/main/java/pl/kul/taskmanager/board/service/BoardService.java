@@ -17,4 +17,6 @@ public interface BoardService {
     BoardUserDTO getDefaultBoardId();
 
     void deleteBoard(Long boardId);
+
+    void addUserToBoard(Long receiverId, Long boardId);
 }

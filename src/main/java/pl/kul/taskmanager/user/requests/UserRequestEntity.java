@@ -31,15 +31,19 @@ public class UserRequestEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private UserRequestType requestType;
 
-    @ManyToOne
+    @Column(name = "IS_ACTIVE", nullable = false)
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
+
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "SENDER_ID", referencedColumnName = "ID")
     private UserDetailsEntity sender;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "RECEIVER_ID", referencedColumnName = "ID")
     private UserDetailsEntity receiver;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "BOARD_ID", referencedColumnName = "ID")
     private BoardEntity board;
 }

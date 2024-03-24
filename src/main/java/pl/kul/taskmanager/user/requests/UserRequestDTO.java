@@ -29,8 +29,6 @@ public class UserRequestDTO extends AbstractDTO {
     private UserRequestType requestType;
 
     @Null(message = ValidationMessages.SENDER_NULL)
-    @Email(message = ValidationMessages.EMAIL_IS_NOT_VALID)
-    @Size(min = 4, max = 100, message = ValidationMessages.EMAIL_SIZE)
     private String senderEmail;
 
     @NotNull(message = ValidationMessages.RECEIVER_NOT_NULL)
