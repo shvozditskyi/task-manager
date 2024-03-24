@@ -2,6 +2,7 @@ package pl.kul.taskmanager.user.requests;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.commons.AbstractEntity;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
@@ -32,6 +33,7 @@ public class UserRequestEntity extends AbstractEntity {
     private UserRequestType requestType;
 
     @Column(name = "IS_ACTIVE", nullable = false)
+    @Convert(converter = YesNoConverter.class)
     @Builder.Default
     private Boolean isActive = Boolean.TRUE;
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
     @Query("""
-            select bu from BoardUserEntity bu
+            select b from BoardUserEntity bu
             join bu.board b
             join bu.user u
             where b.id = :boardId

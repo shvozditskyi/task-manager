@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserDetailsRepository extends JpaRepository<UserDetailsEntity, Long> {
 
     @Query("""
-                select u from UserDetailsEntity ud
+                select ud from UserDetailsEntity ud
                 join ud.user u
                 where u.email = :email  
             """)

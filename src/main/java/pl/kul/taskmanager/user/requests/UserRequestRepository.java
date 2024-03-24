@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRequestRepository extends JpaRepository<UserRequestEntity, Long>{
@@ -19,7 +20,7 @@ public interface UserRequestRepository extends JpaRepository<UserRequestEntity, 
             select ur
             from UserRequestEntity ur
             join ur.receiver ud join ud.user u
-            where u.email = :userId
+            where u.email = :receiverEmail
             and ur.isActive = true
             """)
     Optional<UserRequestEntity> findByReceiverEmailAndIsActive(String receiverEmail);
@@ -41,4 +42,12 @@ public interface UserRequestRepository extends JpaRepository<UserRequestEntity, 
             and ur.sender.id = :userId
             """)
     Long deleteByIdAndSenderReceiverId(Long requestId, Long userId);
+
+    @Query("""
+            select ur
+            from UserRequestEntity ur
+            join ur.receiver u
+            where u.id = :userId
+            """)
+    List<UserRequestEntity> findAllByReceiverId(Long userId);
 }

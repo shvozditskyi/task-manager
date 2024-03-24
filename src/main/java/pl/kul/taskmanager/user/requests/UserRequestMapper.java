@@ -2,9 +2,15 @@ package pl.kul.taskmanager.user.requests;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.kul.taskmanager.board.dto.BoardDTO;
+import pl.kul.taskmanager.board.entity.BoardEntity;
+import pl.kul.taskmanager.board.mapper.BoardMapper;
+import pl.kul.taskmanager.board.service.BoardService;
+import pl.kul.taskmanager.board.utils.BoardUtils;
 import pl.kul.taskmanager.commons.AbstractMapper;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
 import pl.kul.taskmanager.user.entity.UserEntity;
+import pl.kul.taskmanager.user.requests.enums.UserRequestStatus;
 import pl.kul.taskmanager.user.utils.UserUtils;
 
 import java.util.Optional;
@@ -16,13 +22,15 @@ import static pl.kul.taskmanager.security.SecurityUtils.getUserId;
 public class UserRequestMapper implements AbstractMapper<UserRequestDTO, UserRequestEntity>{
 
     private final UserUtils userUtils;
+    private final BoardUtils boardUtils;
 
     @Override
     public UserRequestEntity mapToEntity(UserRequestDTO dto) {
         return UserRequestEntity.builder()
+                .board(boardUtils.getBoardEntityById(dto.getBoardId()))
                 .requestMessage(dto.getRequestMessage())
                 .requestType(dto.getRequestType())
-                .requestStatus(dto.getRequestStatus())
+                .requestStatus(UserRequestStatus.PENDING)
                 .sender(userUtils.findByUserId(getUserId()))
                 .receiver(userUtils.findByEmail(dto.getReceiverEmail()))
                 .build();

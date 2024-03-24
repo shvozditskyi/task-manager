@@ -36,6 +36,6 @@ public class UserRequestDTO extends AbstractDTO {
     @Size(min = 4, max = 100, message = ValidationMessages.EMAIL_SIZE)
     private String receiverEmail;
 
-    @Null(message = ValidationMessages.BOARD_ID_NULL)
+    @NotNull(message = ValidationMessages.BOARD_ID_NOT_NULL)
     private Long boardId;
 }

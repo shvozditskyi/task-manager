@@ -31,6 +31,6 @@ public class ValidationMessages {
     public static final String REQUEST_TYPE_NOT_NULL = "Request type is required";
     public static final String RECEIVER_NOT_NULL = "Receiver email is required";
     public static final String SENDER_NULL = "Sender email must be null";
-    public static final String BOARD_ID_NULL = "Board id must be null";
     public static final String REQUEST_STATUS_NULL = "Request status must be null";
+    public static final String BOARD_ID_NOT_NULL = "Board id is required";
 }

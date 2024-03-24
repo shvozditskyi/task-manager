@@ -9,6 +9,7 @@ import pl.kul.taskmanager.user.repository.UserDetailsRepository;
 import pl.kul.taskmanager.user.requests.enums.UserRequestStatus;
 import pl.kul.taskmanager.user.utils.UserUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 import static pl.kul.taskmanager.security.SecurityUtils.getUserId;
@@ -62,9 +63,15 @@ public class UserRequestService {
     }
 
     private void validateUserRequest(UserRequestDTO userRequestDTO) {
+        isUserOwnerOfBoard(userRequestDTO.getBoardId());
         isExistRequestByReceiverEmail(userRequestDTO);
         Long receiverId = userUtils.getIdByEmail(userRequestDTO.getReceiverEmail());
         validateIfUserIsNotAlreadyInBoard(userRequestDTO.getBoardId(), receiverId);
+    }
+
+    private void isUserOwnerOfBoard(Long boardId) {
+        boardUserRepository.findByUserIdAndIsOwnerAndBoardId(getUserId(), boardId)
+                .orElseThrow(() -> new RuntimeException("You are not the owner of this board"));
     }
 
     private void isExistRequestByReceiverEmail(UserRequestDTO userRequestDTO) {
@@ -80,5 +87,10 @@ public class UserRequestService {
                 .ifPresent(bu -> {
                     throw new RuntimeException("User already has access to this board");
                 });
+    }
+
+    public List<UserRequestDTO> getUserRequests() {
+        return userRequestRepository.findAllByReceiverId(getUserId())
+                .stream().map(userRequestMapper::mapToDTO).toList();
     }
 }
