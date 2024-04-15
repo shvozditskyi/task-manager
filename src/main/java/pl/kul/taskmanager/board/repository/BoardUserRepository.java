@@ -1,6 +1,5 @@
 package pl.kul.taskmanager.board.repository;
 
-import io.micrometer.common.KeyValues;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pl.kul.taskmanager.board.entity.BoardUserEntity;

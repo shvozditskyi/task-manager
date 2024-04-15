@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.commons.AbstractEntity;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
-import pl.kul.taskmanager.user.entity.UserEntity;
 
 @Entity
 @Table(name = "BOARD_USER")

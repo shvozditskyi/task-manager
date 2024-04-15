@@ -40,13 +40,12 @@ public class SecurityConfig {
                 .exceptionHandling(configurer->configurer.authenticationEntryPoint(unauthorizedHandler))
                 .headers(headers->headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize->authorize.requestMatchers("/", "/favicon.ico", "*.png", "*.gif", "*.svg", "*.jpg", "*.html",
+                .authorizeHttpRequests(authorize->
+                        authorize.requestMatchers("/", "/favicon.ico", "*.png", "*.gif", "*.svg", "*.jpg", "*.html",
                                 "*.css", "*.js")
                         .permitAll()
                         .requestMatchers("/api/auth/**", "/logout", "/swagger-ui", "/api/version")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated());
+                        .permitAll());
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

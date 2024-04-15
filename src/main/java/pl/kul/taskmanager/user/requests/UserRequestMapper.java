@@ -2,10 +2,6 @@ package pl.kul.taskmanager.user.requests;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.kul.taskmanager.board.dto.BoardDTO;
-import pl.kul.taskmanager.board.entity.BoardEntity;
-import pl.kul.taskmanager.board.mapper.BoardMapper;
-import pl.kul.taskmanager.board.service.BoardService;
 import pl.kul.taskmanager.board.utils.BoardUtils;
 import pl.kul.taskmanager.commons.AbstractMapper;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;

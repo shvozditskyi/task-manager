@@ -1,7 +1,6 @@
 package pl.kul.taskmanager.board.utils;
 
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Component;
 import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.board.mapper.BoardMapper;

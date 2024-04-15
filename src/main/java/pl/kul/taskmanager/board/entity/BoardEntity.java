@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.commons.AbstractEntity;
+import pl.kul.taskmanager.task.entity.TaskStatus;
 import pl.kul.taskmanager.user.requests.UserRequestEntity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,9 +48,11 @@ public class BoardEntity extends AbstractEntity {
     @Column(name = "creation_date", updatable = false)
     private LocalDateTime creationDate;
 
+    @JoinColumn(name = "status_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = TaskStatus.class)
+    private List<TaskStatus> statuses;
+
     @JsonIgnore
     @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL })
     private Set<UserRequestEntity> joinRequests;
-
-    //todo: add relation to groups after groups implementation
 }

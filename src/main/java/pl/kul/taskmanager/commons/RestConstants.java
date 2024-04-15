@@ -9,4 +9,5 @@ public class RestConstants {
     public static final String AUTH = API + "/auth";
     public static final String BOARDS = API + "/boards";
     public static final String USER_REQUEST = API + "/user-request";
+    public static final String TASKS = API + "/tasks";
 }

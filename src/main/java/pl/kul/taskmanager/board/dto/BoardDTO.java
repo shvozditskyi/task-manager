@@ -7,10 +7,8 @@ import lombok.*;
 import pl.kul.taskmanager.board.entity.BoardType;
 import pl.kul.taskmanager.commons.AbstractDTO;
 import pl.kul.taskmanager.commons.ValidationMessages;
-import pl.kul.taskmanager.user.UserDetailsDTO;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static pl.kul.taskmanager.commons.ValidationMessages.NAME_IS_REQUIRED;
 
