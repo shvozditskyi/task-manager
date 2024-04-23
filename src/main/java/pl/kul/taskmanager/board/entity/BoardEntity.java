@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.commons.AbstractEntity;
+import pl.kul.taskmanager.task.entity.TaskEntity;
 import pl.kul.taskmanager.task.entity.TaskStatus;
 import pl.kul.taskmanager.user.requests.UserRequestEntity;
 
@@ -55,4 +56,7 @@ public class BoardEntity extends AbstractEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL })
     private Set<UserRequestEntity> joinRequests;
+
+    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL })
+    private Set<TaskEntity> tasks;
 }

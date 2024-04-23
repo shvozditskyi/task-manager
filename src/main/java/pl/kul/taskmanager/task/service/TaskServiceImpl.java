@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.kul.taskmanager.board.entity.BoardEntity;
-import pl.kul.taskmanager.board.entity.BoardTaskEntity;
 import pl.kul.taskmanager.board.repository.BoardRepository;
-import pl.kul.taskmanager.board.repository.BoardTaskRepository;
 import pl.kul.taskmanager.task.dto.ShortTaskDTO;
 import pl.kul.taskmanager.task.dto.TaskDTO;
 import pl.kul.taskmanager.task.entity.TaskEntity;
@@ -23,7 +21,6 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskStatusRepository taskStatusRepository;
     private final BoardRepository boardRepository;
-    private final BoardTaskRepository boardTaskRepository;
     private final TaskMapper taskMapper;
 
     @Override
@@ -32,7 +29,6 @@ public class TaskServiceImpl implements TaskService {
         log.debug("Creating task: {}", taskDTO);
         TaskEntity taskEntity = taskMapper.mapToEntity(taskDTO);
         taskRepository.save(taskEntity);
-        createBoardTask(taskDTO, taskEntity);
         log.info("Task created: {}", taskEntity.getId());
     }
 
@@ -67,14 +63,5 @@ public class TaskServiceImpl implements TaskService {
         task.setStatus(newStatus);
         taskRepository.save(task);
         log.debug("Status changed successfully to {}", newStatus.getName());
-    }
-
-    private void createBoardTask(TaskDTO taskDTO, TaskEntity taskEntity) {
-        BoardEntity board = boardRepository.getReferenceById(taskDTO.getBoardId());
-        BoardTaskEntity boardTask = BoardTaskEntity.builder()
-                .board(board)
-                .task(taskEntity)
-                .build();
-        boardTaskRepository.save(boardTask);
     }
 }

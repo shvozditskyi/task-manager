@@ -5,8 +5,11 @@ import pl.kul.taskmanager.board.dto.BoardDTO;
 import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.board.entity.BoardType;
 import pl.kul.taskmanager.commons.AbstractMapper;
+import pl.kul.taskmanager.task.dto.TaskDTO;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class BoardMapper implements AbstractMapper<BoardDTO, BoardEntity> {
@@ -30,6 +33,18 @@ public class BoardMapper implements AbstractMapper<BoardDTO, BoardEntity> {
                 .boardType(boardEntity.getBoardType())
                 .isActive(boardEntity.getIsActive())
                 .creationDate(boardEntity.getCreationDate())
+                .tasks(mapTasks(boardEntity))
                 .build();
+    }
+
+    private Set<TaskDTO> mapTasks(BoardEntity boardEntity) {
+        return boardEntity.getTasks().stream()
+                .map(task -> TaskDTO.builder()
+                        .name(task.getName())
+                        .description(task.getDescription())
+                        .statusId(task.getStatus().getId())
+                        .boardId(task.getBoard().getId())
+                        .build())
+                .collect(Collectors.toSet());
     }
 }

@@ -1,5 +1,6 @@
 package pl.kul.taskmanager.board.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -7,8 +8,10 @@ import lombok.*;
 import pl.kul.taskmanager.board.entity.BoardType;
 import pl.kul.taskmanager.commons.AbstractDTO;
 import pl.kul.taskmanager.commons.ValidationMessages;
+import pl.kul.taskmanager.task.dto.TaskDTO;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static pl.kul.taskmanager.commons.ValidationMessages.NAME_IS_REQUIRED;
 
@@ -32,6 +35,6 @@ public class BoardDTO extends AbstractDTO {
     @NotNull
     @Builder.Default
     private Boolean isDefault = Boolean.FALSE;
-    private Long numberOfTasks;
+    private Set<@Valid TaskDTO> tasks;
     private Long numberOfUsers;
 }

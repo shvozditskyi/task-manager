@@ -36,13 +36,13 @@ public class TaskEntity extends AbstractEntity {
 
     @JoinColumn(name = "created_by")
     @ManyToOne(fetch = FetchType.LAZY, optional = false,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
             targetEntity = UserDetailsEntity.class)
     private UserDetailsEntity createdBy;
 
     @JoinColumn(name = "board_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
             targetEntity = BoardEntity.class)
     private BoardEntity board;
 }
