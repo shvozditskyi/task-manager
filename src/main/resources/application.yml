@@ -22,5 +22,5 @@ spring:
     change-log: classpath:db/master.xml
 
 app:
-  jwtSecret: "4D635166546A576E5A7234753778214125442A472D4B6150645267556B587032"
+  jwtSecret: "5f8c0f7a248a548d83e00c6438d9b3fa303e7a07b781898631686d74d1626e29"
   jwtExpirationInMs: 10000000

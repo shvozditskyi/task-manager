@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import pl.kul.taskmanager.security.UserPrincipal;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
@@ -30,22 +32,26 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
         return Jwts.builder()
-                .setId(UUID.randomUUID().toString())
-                .setSubject(userPrincipal.getEmail())
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
-                .signWith(jwtSecret())
+                .id(UUID.randomUUID().toString())
+                .subject(userPrincipal.getEmail())
+                .issuedAt(new Date())
+                .expiration(expiryDate)
+                .signWith(getSecretKey(jwtSecret), Jwts.SIG.HS512)
                 .compact();
     }
 
     @SneakyThrows
     public String getEmailFromJWT(String token) {
-        return Jwts.parserBuilder().setSigningKey(jwtSecret()).build().parseClaimsJws(token).getBody().getSubject();
+        return getClaims(token).getSubject();
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parser().verifyWith(getSecretKey(jwtSecret)).build().parseSignedClaims(token).getPayload();
     }
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parserBuilder().setSigningKey(jwtSecret()).build().parseClaimsJws(authToken);
+            getClaims(authToken);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
@@ -61,7 +67,8 @@ public class JwtTokenProvider {
         return false;
     }
 
-    private Key jwtSecret() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    public static SecretKey getSecretKey(String jwtSecret) {
+        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

@@ -19,7 +19,7 @@ public class TokenEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;
 
-    @Column(name = "TOKEN", unique = true)
+    @Column(name = "TOKEN", length = 1000, unique = true)
     private String token;
 
     @Column(name = "ACTIVE", nullable = false)
