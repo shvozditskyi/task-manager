@@ -3,6 +3,10 @@ package pl.kul.taskmanager.task.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.kul.taskmanager.task.entity.TaskStatus;
 
+import java.util.Optional;
+
 public interface TaskStatusRepository extends JpaRepository<TaskStatus, Long> {
     int countAllByBoardId(long boardId);
+
+    Optional<TaskStatus> findByOrderNumberAndBoardId(long l, Long boardId);
 }

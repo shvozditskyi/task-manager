@@ -23,7 +23,7 @@ public class TaskMapper implements AbstractMapper<TaskDTO, TaskEntity> {
         return TaskEntity.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .status(taskStatusRepository.getReferenceById(dto.getStatusId()))
+                .status(taskStatusRepository.findByOrderNumberAndBoardId(0L, dto.getBoardId()).orElse(null))
                 .createdBy(userDetailsRepository.getReferenceById(SecurityUtils.getUserId()))
                 .board(boardRepository.getReferenceById(dto.getBoardId()))
                 .build();

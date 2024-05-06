@@ -23,8 +23,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
             select b from BoardUserEntity bu
             join bu.board b
             join bu.user u
-            where b.id = :boardId
-            and u.id = :userId
+            where u.id = :userId
             and bu.isDefault = true
             """)
     Optional<BoardEntity> getDefaultBoardByUserId(Long userId);

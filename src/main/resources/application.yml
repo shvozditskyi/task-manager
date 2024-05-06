@@ -21,6 +21,12 @@ spring:
   liquibase:
     change-log: classpath:db/master.xml
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: "/swagger-ui"
+
 app:
   jwtSecret: "5f8c0f7a248a548d83e00c6438d9b3fa303e7a07b781898631686d74d1626e29"
   jwtExpirationInMs: 10000000

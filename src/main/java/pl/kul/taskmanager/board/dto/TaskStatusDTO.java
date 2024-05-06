@@ -1,6 +1,7 @@
 package pl.kul.taskmanager.board.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,6 @@ public class TaskStatusDTO {
     private Long id;
     @NotNull(message = NAME_IS_REQUIRED)
     private String name;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int orderNumber;
-    @JsonIgnore
-    private long boardId;
 }

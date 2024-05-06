@@ -72,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardDTO getDefaultBoard() {
         return boardRepository.getDefaultBoardByUserId(getUserId())
                 .map(boardMapper::mapToDTO)
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Default board not found"));
     }
 
     @Override
@@ -90,12 +90,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void createTaskStatus(TaskStatusDTO taskStatusDTO) {
-        log.debug("Creating new status: {}", taskStatusDTO);
+    public void createTaskStatus(Long boardId, String name) {
         TaskStatus taskStatus = TaskStatus.builder()
-                .name(taskStatusDTO.getName())
-                .board(boardRepository.getReferenceById(taskStatusDTO.getBoardId()))
-                .orderNumber(taskStatusRepository.countAllByBoardId(taskStatusDTO.getBoardId() + 1))
+                .name(name)
+                .board(boardRepository.getReferenceById(boardId))
+                .orderNumber(taskStatusRepository.countAllByBoardId(boardId) + 1)
                 .build();
         taskStatusRepository.save(taskStatus);
         log.info("Status created: {}", taskStatus.getId());
@@ -134,19 +133,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     private void createDefaultTaskStatues(BoardEntity boardEntity) {
-        List<TaskStatus> statuses = List.of(
-                buildTaskStatus("To Do", boardEntity,0),
-                buildTaskStatus("In Progress", boardEntity, 1),
-                buildTaskStatus("Done", boardEntity, 2)
-        );
-        taskStatusRepository.saveAll(statuses);
+        buildTaskStatus("To Do", boardEntity,0);
+        buildTaskStatus("In Progress", boardEntity, 1);
+        buildTaskStatus("Done", boardEntity, 2);
     }
 
-    private TaskStatus buildTaskStatus(String name, BoardEntity boardEntity, int orderNumber){
-        return TaskStatus.builder()
+    private void buildTaskStatus(String name, BoardEntity boardEntity, int orderNumber){
+        TaskStatus status = TaskStatus.builder()
                 .name(name)
                 .orderNumber(orderNumber)
                 .board(boardEntity)
+                .doneStatus(orderNumber == 2)
                 .build();
+        taskStatusRepository.save(status);
     }
 }

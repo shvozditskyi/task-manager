@@ -44,10 +44,10 @@ public class SecurityConfig {
                         authorize.requestMatchers("/", "/favicon.ico", "*.png", "*.gif", "*.svg", "*.jpg", "*.html",
                                 "*.css", "*.js")
                         .permitAll()
-                        .requestMatchers("/api/auth/**", "/logout", "/swagger-ui", "/api/version")
+                        .requestMatchers("/api/auth/**", "/logout", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/api/version")
                         .permitAll()
                         .anyRequest()
-                        .authenticated());
+                        .permitAll());
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

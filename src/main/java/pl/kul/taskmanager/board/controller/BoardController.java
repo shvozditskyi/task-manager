@@ -33,8 +33,9 @@ public class BoardController {
     }
 
     @PostMapping("/newStatus")
-    public ResponseEntity<Void> createTaskStatus(@RequestBody TaskStatusDTO taskStatusDTO) {
-        boardService.createTaskStatus(taskStatusDTO);
+    public ResponseEntity<Void> createTaskStatus(@RequestParam(name = "boardId") Long boardId,
+                                                 @RequestParam(name = "name") String name){
+        boardService.createTaskStatus(boardId, name);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

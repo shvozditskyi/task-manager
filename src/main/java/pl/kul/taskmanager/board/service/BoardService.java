@@ -21,5 +21,5 @@ public interface BoardService {
 
     void addUserToBoard(Long receiverId, Long boardId);
 
-    void createTaskStatus(TaskStatusDTO taskStatusDTO);
+    void createTaskStatus(Long boardId, String name);
 }
