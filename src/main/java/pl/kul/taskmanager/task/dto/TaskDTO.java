@@ -21,6 +21,6 @@ public class TaskDTO extends AbstractDTO {
     private Long boardId;
     @NotNull
     private Long statusId;
-    @Null
+    // READONLY
     private Long createdBy;
 }

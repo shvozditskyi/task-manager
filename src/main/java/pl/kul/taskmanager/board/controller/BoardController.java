@@ -58,9 +58,9 @@ public class BoardController {
     }
 
     @GetMapping("/default")
-    public ResponseEntity<BoardUserDTO> getDefaultBoardId() {
+    public ResponseEntity<BoardDTO> getDefaultBoardId() {
         log.debug("Getting default board for single user");
-        return ResponseEntity.ok(boardService.getDefaultBoardId());
+        return ResponseEntity.ok(boardService.getDefaultBoard());
     }
 
     @DeleteMapping("/{boardId}")

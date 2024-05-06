@@ -69,9 +69,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardUserDTO getDefaultBoardId() {
-        return boardUserRepository.findByUserIdAndDefaultTrue(getUserId())
-                .map(boardUserMapper::mapToDTO)
+    public BoardDTO getDefaultBoard() {
+        return boardRepository.getDefaultBoardByUserId(getUserId())
+                .map(boardMapper::mapToDTO)
                 .orElse(null);
     }
 

@@ -35,7 +35,6 @@ public class BoardDTO extends AbstractDTO {
     private LocalDateTime creationDate;
     @Builder.Default
     private Boolean isActive = Boolean.TRUE;
-    @NotNull
     @Builder.Default
     private Boolean isDefault = Boolean.FALSE;
     private Set<@Valid TaskDTO> tasks;

@@ -15,7 +15,7 @@ public interface BoardService {
 
     void setDefaultBoard(Long boardId);
 
-    BoardUserDTO getDefaultBoardId();
+    BoardDTO getDefaultBoard();
 
     void deleteBoard(Long boardId);
 
