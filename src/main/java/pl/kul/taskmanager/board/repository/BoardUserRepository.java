@@ -10,6 +10,16 @@ import java.util.Optional;
 public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long> {
 
     @Query("""
+            select bu 
+            from BoardUserEntity bu
+            join bu.user u
+            join bu.board b
+            where u.id = :userId 
+            and bu.isDefault = true
+            """)
+    Optional<BoardUserEntity> findByUserIdAndDefaultTrue(Long userId);
+
+    @Query("""
             select bu
             from BoardUserEntity bu
             join bu.user u
@@ -19,7 +29,7 @@ public interface BoardUserRepository extends JpaRepository<BoardUserEntity, Long
             """)
     List<BoardUserEntity> findActiveBoardsByUserId(Long userId);
 
-    @Query("""
+@Query("""
             select bu
             from BoardUserEntity bu
             join bu.user u
