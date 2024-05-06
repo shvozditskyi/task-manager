@@ -2,6 +2,7 @@ package pl.kul.taskmanager.board.service;
 
 import pl.kul.taskmanager.board.dto.BoardDTO;
 import pl.kul.taskmanager.board.dto.BoardUserDTO;
+import pl.kul.taskmanager.board.dto.TaskStatusDTO;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface BoardService {
     void deleteBoard(Long boardId);
 
     void addUserToBoard(Long receiverId, Long boardId);
+
+    void createTaskStatus(TaskStatusDTO taskStatusDTO);
 }

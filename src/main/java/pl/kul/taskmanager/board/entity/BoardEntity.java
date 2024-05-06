@@ -49,8 +49,8 @@ public class BoardEntity extends AbstractEntity {
     @Column(name = "creation_date", updatable = false)
     private LocalDateTime creationDate;
 
-    @JoinColumn(name = "status_id")
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = TaskStatus.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = TaskStatus.class,
+            mappedBy = "board")
     private List<TaskStatus> statuses;
 
     @JsonIgnore

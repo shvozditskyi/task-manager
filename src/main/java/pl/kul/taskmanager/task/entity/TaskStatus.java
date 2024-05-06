@@ -24,7 +24,14 @@ public class TaskStatus extends AbstractEntity {
     @Convert(converter = YesNoConverter.class)
     private boolean active;
 
+    @Column(name = "done_status")
+    private boolean doneStatus;
+
+    @Column(name = "order_number")
+    private int orderNumber;
+
     @JoinColumn(name = "board_id")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = BoardEntity.class)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = BoardEntity.class,
+                 cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private BoardEntity board;
 }

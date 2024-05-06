@@ -2,12 +2,14 @@ package pl.kul.taskmanager.board.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.kul.taskmanager.board.dto.BoardDTO;
+import pl.kul.taskmanager.board.dto.TaskStatusDTO;
 import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.board.entity.BoardType;
 import pl.kul.taskmanager.commons.AbstractMapper;
 import pl.kul.taskmanager.task.dto.TaskDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,14 +29,26 @@ public class BoardMapper implements AbstractMapper<BoardDTO, BoardEntity> {
 
     public BoardDTO mapToDTO(BoardEntity boardEntity) {
         return BoardDTO.builder()
+                .id(boardEntity.getId())
                 .name(boardEntity.getName())
                 .description(boardEntity.getDescription())
                 .color(boardEntity.getColor())
+                .statuses(getStatusesDTO(boardEntity))
                 .boardType(boardEntity.getBoardType())
                 .isActive(boardEntity.getIsActive())
                 .creationDate(boardEntity.getCreationDate())
                 .tasks(mapTasks(boardEntity))
                 .build();
+    }
+
+    private List<TaskStatusDTO> getStatusesDTO(BoardEntity boardEntity) {
+        return boardEntity.getStatuses().stream()
+                .map(status -> TaskStatusDTO.builder()
+                        .id(status.getId())
+                        .name(status.getName())
+                        .orderNumber(status.getOrderNumber())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private Set<TaskDTO> mapTasks(BoardEntity boardEntity) {

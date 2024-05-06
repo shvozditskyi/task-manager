@@ -1,0 +1,22 @@
+Board:
+
+{
+  "name": "Example Board",
+  "description": "This is an example board description.",
+  "color": "#FFA500",
+  "boardType": "PRIVATE",
+  "creationDate": "2024-04-23T12:00:00",
+  "isActive": true,
+  "isDefault": false
+}
+
+
+Task:
+{
+  "id": 1,
+  "name": "Example Task",
+  "description": "This is an example task description.",
+  "boardId": 123,
+  "statusId": 456,
+  "createdBy": null
+}

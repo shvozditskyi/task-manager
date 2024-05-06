@@ -3,11 +3,13 @@ package pl.kul.taskmanager.board.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.kul.taskmanager.board.dto.BoardDTO;
 import pl.kul.taskmanager.board.dto.BoardUserDTO;
 import pl.kul.taskmanager.board.service.BoardService;
+import pl.kul.taskmanager.board.dto.TaskStatusDTO;
 import pl.kul.taskmanager.user.requests.UserRequestDTO;
 import pl.kul.taskmanager.user.requests.UserRequestService;
 
@@ -28,6 +30,12 @@ public class BoardController {
         log.debug("Creating board: {}", boardDTO);
         boardService.createBoard(boardDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/newStatus")
+    public ResponseEntity<Void> createTaskStatus(@RequestBody TaskStatusDTO taskStatusDTO) {
+        boardService.createTaskStatus(taskStatusDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping

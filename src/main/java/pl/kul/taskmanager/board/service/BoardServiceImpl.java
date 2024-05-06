@@ -12,6 +12,9 @@ import pl.kul.taskmanager.board.mapper.BoardMapper;
 import pl.kul.taskmanager.board.mapper.BoardUserMapper;
 import pl.kul.taskmanager.board.repository.BoardRepository;
 import pl.kul.taskmanager.board.repository.BoardUserRepository;
+import pl.kul.taskmanager.board.dto.TaskStatusDTO;
+import pl.kul.taskmanager.task.entity.TaskStatus;
+import pl.kul.taskmanager.task.repository.TaskStatusRepository;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
 import pl.kul.taskmanager.user.utils.UserUtils;
 
@@ -29,6 +32,7 @@ public class BoardServiceImpl implements BoardService {
     private final BoardMapper boardMapper;
     private final BoardUserMapper boardUserMapper;
     private final UserUtils userUtils;
+    private final TaskStatusRepository taskStatusRepository;
 
     @Override
     @Transactional
@@ -36,6 +40,7 @@ public class BoardServiceImpl implements BoardService {
         BoardEntity boardEntity = boardMapper.mapToEntity(boardDTO);
         boardRepository.save(boardEntity);
         UserDetailsEntity user = userUtils.findByUserId(getUserId());
+        createDefaultTaskStatues(boardEntity);
         saveBoardForUser(boardEntity, user, boardDTO.getIsDefault(), true);
     }
 
@@ -84,6 +89,18 @@ public class BoardServiceImpl implements BoardService {
         saveBoardForUser(boardEntity, user, false, false);
     }
 
+    @Override
+    public void createTaskStatus(TaskStatusDTO taskStatusDTO) {
+        log.debug("Creating new status: {}", taskStatusDTO);
+        TaskStatus taskStatus = TaskStatus.builder()
+                .name(taskStatusDTO.getName())
+                .board(boardRepository.getReferenceById(taskStatusDTO.getBoardId()))
+                .orderNumber(taskStatusRepository.countAllByBoardId(taskStatusDTO.getBoardId() + 1))
+                .build();
+        taskStatusRepository.save(taskStatus);
+        log.info("Status created: {}", taskStatus.getId());
+    }
+
     private void saveBoardForUser(BoardEntity boardEntity, UserDetailsEntity user, Boolean isDefault, Boolean isOwner) {
         changeDefaultBoardForUser(isDefault, user);
         BoardUserEntity boardUserEntity = BoardUserEntity.builder()
@@ -114,5 +131,22 @@ public class BoardServiceImpl implements BoardService {
     private BoardEntity findBoardById(Long boardId) {
         return boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("Board not found"));
+    }
+
+    private void createDefaultTaskStatues(BoardEntity boardEntity) {
+        List<TaskStatus> statuses = List.of(
+                buildTaskStatus("To Do", boardEntity,0),
+                buildTaskStatus("In Progress", boardEntity, 1),
+                buildTaskStatus("Done", boardEntity, 2)
+        );
+        taskStatusRepository.saveAll(statuses);
+    }
+
+    private TaskStatus buildTaskStatus(String name, BoardEntity boardEntity, int orderNumber){
+        return TaskStatus.builder()
+                .name(name)
+                .orderNumber(orderNumber)
+                .board(boardEntity)
+                .build();
     }
 }
