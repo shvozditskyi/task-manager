@@ -11,6 +11,9 @@ import org.hibernate.type.YesNoConverter;
 import pl.kul.taskmanager.commons.AbstractEntity;
 import pl.kul.taskmanager.task.entity.TaskEntity;
 import pl.kul.taskmanager.task.entity.TaskStatus;
+import pl.kul.taskmanager.user.UserDetailsDTO;
+import pl.kul.taskmanager.user.entity.UserDetailsEntity;
+import pl.kul.taskmanager.user.entity.UserEntity;
 import pl.kul.taskmanager.user.requests.UserRequestEntity;
 
 import java.time.LocalDateTime;
@@ -50,13 +53,16 @@ public class BoardEntity extends AbstractEntity {
     private LocalDateTime creationDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = TaskStatus.class,
-            mappedBy = "board")
+            mappedBy = "board", orphanRemoval = true)
     private List<TaskStatus> statuses;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private Set<UserRequestEntity> joinRequests;
 
-    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private Set<TaskEntity> tasks;
+
+    @OneToMany(mappedBy = "board", cascade = { CascadeType.ALL }, orphanRemoval = true)
+    private Set<BoardUserEntity> participants;
 }

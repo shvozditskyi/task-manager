@@ -29,7 +29,7 @@ public class TaskEntity extends AbstractEntity {
     private String description;
 
     @JoinColumn(name = "status_id")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false,
+    @OneToOne(fetch = FetchType.LAZY, optional = false,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
             targetEntity = TaskStatus.class)
     private TaskStatus status;

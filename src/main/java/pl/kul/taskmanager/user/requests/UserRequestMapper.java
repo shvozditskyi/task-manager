@@ -2,6 +2,7 @@ package pl.kul.taskmanager.user.requests;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.kul.taskmanager.board.repository.BoardRepository;
 import pl.kul.taskmanager.board.utils.BoardUtils;
 import pl.kul.taskmanager.commons.AbstractMapper;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
@@ -18,16 +19,16 @@ import static pl.kul.taskmanager.security.SecurityUtils.getUserId;
 public class UserRequestMapper implements AbstractMapper<UserRequestDTO, UserRequestEntity>{
 
     private final UserUtils userUtils;
-    private final BoardUtils boardUtils;
+    private final BoardRepository boardRepository;
 
     @Override
     public UserRequestEntity mapToEntity(UserRequestDTO dto) {
         return UserRequestEntity.builder()
-                .board(boardUtils.getBoardEntityById(dto.getBoardId()))
+                .board(boardRepository.getReferenceById(dto.getBoardId()))
                 .requestMessage(dto.getRequestMessage())
                 .requestType(dto.getRequestType())
                 .requestStatus(UserRequestStatus.PENDING)
-                .sender(userUtils.findByUserId(getUserId()))
+                .sender(userUtils.getLoggedUserDetails())
                 .receiver(userUtils.findByEmail(dto.getReceiverEmail()))
                 .build();
     }
@@ -35,11 +36,13 @@ public class UserRequestMapper implements AbstractMapper<UserRequestDTO, UserReq
     @Override
     public UserRequestDTO mapToDTO(UserRequestEntity entity) {
         return UserRequestDTO.builder()
+                .id(entity.getId())
                 .requestMessage(entity.getRequestMessage())
                 .requestType(entity.getRequestType())
                 .requestStatus(entity.getRequestStatus())
                 .senderEmail(getNullSafeEmail(entity.getSender()))
                 .receiverEmail(getNullSafeEmail(entity.getReceiver()))
+                .boardId(entity.getBoard().getId())
                 .build();
     }
 

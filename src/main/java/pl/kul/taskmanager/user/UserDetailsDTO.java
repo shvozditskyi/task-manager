@@ -1,5 +1,7 @@
 package pl.kul.taskmanager.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +26,7 @@ public class UserDetailsDTO extends AbstractDTO {
     @Email(message = EMAIL_IS_NOT_VALID)
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = PASSWORD_IS_REQUIRED)
     @Size(min = 6, max = 30, message = PASSWORD_SIZE)
     @Pattern(regexp = PASSWORD_REGEXP, message = PASSWORD_IS_NOT_VALID)

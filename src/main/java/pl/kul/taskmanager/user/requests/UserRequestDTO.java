@@ -1,5 +1,6 @@
 package pl.kul.taskmanager.user.requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -18,17 +19,19 @@ import pl.kul.taskmanager.user.requests.enums.UserRequestType;
 @NoArgsConstructor
 @Builder
 public class UserRequestDTO extends AbstractDTO {
+    private Long id;
+
     @Size(max = 500, message = ValidationMessages.REQUEST_MESSAGE_TOO_LONG)
     private String requestMessage;
 
     @Builder.Default
-    @Null(message = ValidationMessages.REQUEST_STATUS_NULL)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UserRequestStatus requestStatus = UserRequestStatus.PENDING;
 
     @NotNull(message = ValidationMessages.REQUEST_TYPE_NOT_NULL)
     private UserRequestType requestType;
 
-    @Null(message = ValidationMessages.SENDER_NULL)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String senderEmail;
 
     @NotNull(message = ValidationMessages.RECEIVER_NOT_NULL)

@@ -19,11 +19,11 @@ public class BoardUserEntity extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_user_seq")
     private Long id;
 
-    @OneToOne(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @ManyToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name = "BOARD_ID", referencedColumnName = "ID")
     private BoardEntity board;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, targetEntity = UserDetailsEntity.class)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private UserDetailsEntity user;
 

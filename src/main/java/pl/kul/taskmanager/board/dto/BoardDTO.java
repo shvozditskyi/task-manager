@@ -9,6 +9,7 @@ import pl.kul.taskmanager.board.entity.BoardType;
 import pl.kul.taskmanager.commons.AbstractDTO;
 import pl.kul.taskmanager.commons.ValidationMessages;
 import pl.kul.taskmanager.task.dto.TaskDTO;
+import pl.kul.taskmanager.user.UserDetailsDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,5 +39,6 @@ public class BoardDTO extends AbstractDTO {
     @Builder.Default
     private Boolean isDefault = Boolean.FALSE;
     private Set<@Valid TaskDTO> tasks;
-    private Long numberOfUsers;
+    private Set<UserDetailsDTO> participants;
+    private int numberOfUsers;
 }

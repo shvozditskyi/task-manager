@@ -37,11 +37,13 @@ public class UserRequestEntity extends AbstractEntity {
     @Builder.Default
     private Boolean isActive = Boolean.TRUE;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH },
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "SENDER_ID", referencedColumnName = "ID")
     private UserDetailsEntity sender;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH },
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "RECEIVER_ID", referencedColumnName = "ID")
     private UserDetailsEntity receiver;
 

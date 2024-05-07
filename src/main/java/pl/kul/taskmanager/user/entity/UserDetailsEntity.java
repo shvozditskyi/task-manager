@@ -38,7 +38,7 @@ public class UserDetailsEntity extends AbstractEntity {
     private Set<BoardUserEntity> userBoards;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "sender", cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy = "sender", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<UserRequestEntity> joinRequests;
 
     @OneToOne(cascade = { CascadeType.ALL })

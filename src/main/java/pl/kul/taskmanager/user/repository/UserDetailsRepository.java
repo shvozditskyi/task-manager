@@ -11,7 +11,14 @@ public interface UserDetailsRepository extends JpaRepository<UserDetailsEntity, 
     @Query("""
                 select ud from UserDetailsEntity ud
                 join ud.user u
-                where u.email = :email  
+                where u.email = :email
             """)
     Optional<UserDetailsEntity> findByEmail(String email);
+
+    @Query("""
+                select ud from UserDetailsEntity ud
+                join ud.user u
+                where u.id = :userDetailsId
+            """)
+    Optional<UserDetailsEntity> findByUserId(Long userDetailsId);
 }

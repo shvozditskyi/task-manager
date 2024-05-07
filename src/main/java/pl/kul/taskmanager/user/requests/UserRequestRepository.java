@@ -12,8 +12,9 @@ public interface UserRequestRepository extends JpaRepository<UserRequestEntity, 
             select ur
             from UserRequestEntity ur
             join ur.receiver u
+            join u.user user
             where ur.id = :requestId
-            and u.id = :userId
+            and user.id = :userId
             """)
     Optional<UserRequestEntity> findByIdAndReceiverId(Long requestId, Long userId);
     @Query("""
@@ -30,8 +31,9 @@ public interface UserRequestRepository extends JpaRepository<UserRequestEntity, 
             from UserRequestEntity ur
             join ur.sender u
             join ur.receiver r
+            join r.user ru
             where ur.id = :requestId
-            and (u.id = :userId or r.id = :userId)
+            and (u.id = :userId or ru.id = :userId)
             """)
     Optional<UserRequestEntity> findByIdAndSenderReceiverId(Long requestId, Long userId);
 
@@ -47,7 +49,9 @@ public interface UserRequestRepository extends JpaRepository<UserRequestEntity, 
             select ur
             from UserRequestEntity ur
             join ur.receiver u
-            where u.id = :userId
+            join u.user user
+            where user.id = :userId
+            and ur.requestStatus = 'PENDING'
             """)
     List<UserRequestEntity> findAllByReceiverId(Long userId);
 }

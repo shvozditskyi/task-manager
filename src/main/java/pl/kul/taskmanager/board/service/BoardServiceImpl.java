@@ -79,7 +79,7 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(Long boardId) {
         BoardUserEntity boardUserEntity = boardUserRepository.findByUserIdAndIsOwnerAndBoardId(getUserId(), boardId)
                 .orElseThrow(() -> new RuntimeException("Board not found"));
-        boardUserRepository.delete(boardUserEntity);
+        boardRepository.delete(boardUserEntity.getBoard());
     }
 
     @Override
