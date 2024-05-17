@@ -2,6 +2,7 @@ package pl.kul.taskmanager.task.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.kul.taskmanager.board.entity.BoardEntity;
 import pl.kul.taskmanager.board.repository.BoardRepository;
 import pl.kul.taskmanager.commons.AbstractMapper;
 import pl.kul.taskmanager.security.SecurityUtils;
@@ -20,12 +21,14 @@ public class TaskMapper implements AbstractMapper<TaskDTO, TaskEntity> {
 
     @Override
     public TaskEntity mapToEntity(TaskDTO dto) {
+        BoardEntity board = boardRepository.findById(dto.getBoardId())
+                .orElseThrow(() -> new RuntimeException("Board not found"));
         return TaskEntity.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .status(taskStatusRepository.findByOrderNumberAndBoardId(0L, dto.getBoardId()).orElse(null))
+                .status(taskStatusRepository.findByOrderNumberAndBoardId(0L, dto.getBoardId()).orElseThrow(() -> new RuntimeException("Status not found")))
                 .createdBy(userDetailsRepository.getReferenceById(SecurityUtils.getUserId()))
-                .board(boardRepository.getReferenceById(dto.getBoardId()))
+                .board(board)
                 .build();
     }
 

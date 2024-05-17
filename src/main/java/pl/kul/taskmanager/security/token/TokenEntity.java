@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TokenEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_seq")
     private Long id;
 
     @Column(name = "TOKEN", length = 1000, unique = true)
