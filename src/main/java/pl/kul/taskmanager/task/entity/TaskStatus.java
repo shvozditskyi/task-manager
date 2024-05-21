@@ -38,6 +38,6 @@ public class TaskStatus extends AbstractEntity {
                  cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH })
     private BoardEntity board;
 
-    @OneToOne(mappedBy = "status", cascade = { CascadeType.ALL }, orphanRemoval = true)
-    private TaskEntity tasks;
+    @OneToMany(mappedBy = "status", cascade = { CascadeType.ALL }, orphanRemoval = true)
+    private List<TaskEntity> tasks;
 }
