@@ -1,6 +1,7 @@
 package pl.kul.taskmanager.board.dto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -24,7 +25,7 @@ import static pl.kul.taskmanager.commons.ValidationMessages.NAME_IS_REQUIRED;
 @Builder
 public class BoardDTO extends AbstractDTO {
     private Long id;
-    @NotNull(message = NAME_IS_REQUIRED)
+    @NotBlank(message = NAME_IS_REQUIRED)
     @Size(max = 50, message = ValidationMessages.NAME_LENGTH)
     private String name;
     @Size(max = 200, message = ValidationMessages.DESCRIPTION_LENGTH)
