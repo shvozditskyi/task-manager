@@ -26,7 +26,7 @@ public class TaskMapper implements AbstractMapper<TaskDTO, TaskEntity> {
         return TaskEntity.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .status(taskStatusRepository.findByOrderNumberAndBoardId(dto.getStatusId(), dto.getBoardId()).orElseThrow(() -> new RuntimeException("Status not found")))
+                .status(taskStatusRepository.findByStatusIdAndBoardId(dto.getStatusId(), dto.getBoardId()).orElseThrow(() -> new RuntimeException("Status not found")))
                 .createdBy(userDetailsRepository.getReferenceById(SecurityUtils.getUserId()))
                 .board(board)
                 .build();
