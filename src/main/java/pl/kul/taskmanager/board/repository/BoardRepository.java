@@ -27,4 +27,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
             and bu.isDefault = true
             """)
     Optional<BoardEntity> getDefaultBoardByUserId(Long userId);
+
+    boolean existsByName(String name);
 }

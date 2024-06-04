@@ -32,7 +32,7 @@ public class BoardEntity extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq")
     private Long id;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", length = 200)

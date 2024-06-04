@@ -37,6 +37,10 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void createBoard(BoardDTO boardDTO) {
+        boolean existsByName = boardRepository.existsByName(boardDTO.getName());
+        if(existsByName){
+            throw new RuntimeException("Board with this name already exists");
+        }
         BoardEntity boardEntity = boardMapper.mapToEntity(boardDTO);
         boardRepository.save(boardEntity);
         UserDetailsEntity user = userUtils.findByUserId(getUserId());
