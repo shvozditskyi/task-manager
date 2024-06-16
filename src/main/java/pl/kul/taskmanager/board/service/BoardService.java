@@ -22,4 +22,6 @@ public interface BoardService {
     void addUserToBoard(Long receiverId, Long boardId);
 
     void createTaskStatus(Long boardId, String name);
+
+    void changeBoardName(Long boardId, String name);
 }

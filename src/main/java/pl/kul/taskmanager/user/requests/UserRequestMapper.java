@@ -8,6 +8,7 @@ import pl.kul.taskmanager.commons.AbstractMapper;
 import pl.kul.taskmanager.user.entity.UserDetailsEntity;
 import pl.kul.taskmanager.user.entity.UserEntity;
 import pl.kul.taskmanager.user.requests.enums.UserRequestStatus;
+import pl.kul.taskmanager.user.requests.enums.UserRequestType;
 import pl.kul.taskmanager.user.utils.UserUtils;
 
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class UserRequestMapper implements AbstractMapper<UserRequestDTO, UserReq
         return UserRequestEntity.builder()
                 .board(boardRepository.getReferenceById(dto.getBoardId()))
                 .requestMessage(dto.getRequestMessage())
-                .requestType(dto.getRequestType())
+                .requestType(UserRequestType.BOARD)
                 .requestStatus(UserRequestStatus.PENDING)
                 .sender(userUtils.getLoggedUserDetails())
                 .receiver(userUtils.findByEmail(dto.getReceiverEmail()))

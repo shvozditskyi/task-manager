@@ -41,4 +41,11 @@ public class TaskController {
         taskService.changeTaskStatus(taskId, statusId);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/status/name")
+    public ResponseEntity<Void> changeTaskStatusName(@RequestParam(name = "statusId") Long statusId,
+                                                     @RequestParam(name = "name") String name) {
+        taskService.changeTaskStatusName(statusId, name);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -64,4 +64,13 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
         log.debug("Status changed successfully to {}", newStatus.getName());
     }
+
+    @Override
+    public void changeTaskStatusName(Long statusId, String name) {
+        TaskStatus status = taskStatusRepository.getReferenceById(statusId);
+        log.debug("Changing status name with id {} to {}", statusId, name);
+        status.setName(name);
+        taskStatusRepository.save(status);
+        log.debug("Status name changed successfully to {}", name);
+    }
 }

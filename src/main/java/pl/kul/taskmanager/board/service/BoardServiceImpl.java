@@ -104,6 +104,13 @@ public class BoardServiceImpl implements BoardService {
         log.info("Status created: {}", taskStatus.getId());
     }
 
+    @Override
+    public void changeBoardName(Long boardId, String name) {
+        BoardEntity board = findBoardById(boardId);
+        board.setName(name);
+        boardRepository.save(board);
+    }
+
     private void saveBoardForUser(BoardEntity boardEntity, UserDetailsEntity user, Boolean isDefault, Boolean isOwner) {
         changeDefaultBoardForUser(isDefault, user);
         BoardUserEntity boardUserEntity = BoardUserEntity.builder()

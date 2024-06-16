@@ -8,4 +8,6 @@ public interface TaskService {
     void deleteTask(Long taskId);
     void editTask(Long taskId, ShortTaskDTO taskDTO);
     void changeTaskStatus(Long taskId, Long statusId);
+
+    void changeTaskStatusName(Long statusId, String name);
 }

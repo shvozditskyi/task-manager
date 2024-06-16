@@ -77,4 +77,12 @@ public class BoardController {
         userRequestService.inviteUserToBoard(userRequestDTO);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/name")
+    public ResponseEntity<Void> changeBoardName(@RequestParam(name = "boardId") Long boardId,
+                                               @RequestParam(name = "name") String name) {
+        log.debug("Changing board name");
+        boardService.changeBoardName(boardId, name);
+        return ResponseEntity.ok().build();
+    }
 }
