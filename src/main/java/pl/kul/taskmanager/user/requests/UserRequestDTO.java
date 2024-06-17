@@ -28,9 +28,6 @@ public class UserRequestDTO extends AbstractDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UserRequestStatus requestStatus = UserRequestStatus.PENDING;
 
-    @NotNull(message = ValidationMessages.REQUEST_TYPE_NOT_NULL)
-    private UserRequestType requestType;
-
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String senderEmail;
 

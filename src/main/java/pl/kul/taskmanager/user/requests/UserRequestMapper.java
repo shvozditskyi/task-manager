@@ -39,7 +39,6 @@ public class UserRequestMapper implements AbstractMapper<UserRequestDTO, UserReq
         return UserRequestDTO.builder()
                 .id(entity.getId())
                 .requestMessage(entity.getRequestMessage())
-                .requestType(entity.getRequestType())
                 .requestStatus(entity.getRequestStatus())
                 .senderEmail(getNullSafeEmail(entity.getSender()))
                 .receiverEmail(getNullSafeEmail(entity.getReceiver()))
